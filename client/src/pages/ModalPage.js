@@ -19,6 +19,7 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
+  Table,
   UncontrolledButtonDropdown,
 } from 'reactstrap';
 
@@ -28,7 +29,7 @@ class ModalPage extends React.Component {
     modal_backdrop: false,
     modal_nested_parent: false,
     modal_nested: false,
-    modal_timesheet:  false,
+    modal_timesheet: false,
     backdrop: true,
   };
 
@@ -71,8 +72,8 @@ class ModalPage extends React.Component {
                 <Button color="secondary" onClick={this.toggle('nested_parent')}>
                   Enter Time
                 </Button>{' '}
-                <Button color="primary" onClick={this.toggle('nested_parent')}>
-                  Timesheet        
+                <Button color="primary" onClick={this.toggle('timesheet')}>
+                  Timesheet
                 </Button>
                 <Modal
                   isOpen={this.state.modal_nested_parent}
@@ -144,83 +145,7 @@ class ModalPage extends React.Component {
                     {/* <Button color="success" onClick={this.toggle('nested')}>
                       Enter Start and End Time
                     </Button> */}
-                    <Modal
-                      isOpen={this.state.modal_nested}
-                      toggle={this.toggle('nested')}>
-                      <ModalHeader>Select Start and End Time</ModalHeader>
-                      <ModalBody>
-
-                        <FormGroup>
-                          <Label for="exampleTime">Start Time</Label>
-                          <Input
-                            type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="exampleTime">End Time</Label>
-                          <Input
-                            type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
-                          />
-                        </FormGroup>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button color="primary" onClick={this.toggle('nested')}>
-                          Done
-                        </Button>{' '}
-                        <Button
-                          color="secondary"
-                          onClick={this.toggle('nested_parent')}>
-                          All Done
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-
-                    <Modal
-                      isOpen={this.state.modal_nested}
-                      toggle={this.toggle('nested')}>
-                      <ModalHeader>Select Start and End Time</ModalHeader>
-                      <ModalBody>
-                        <FormGroup>
-                          <Label for="exampleTime">Start Time</Label>
-                          <Input
-                            type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="exampleTime">End Time</Label>
-                          <Input
-                            type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
-                          />
-                        </FormGroup>
-                      </ModalBody>
-
-
-                      <ModalFooter>
-                        <Button color="primary" onClick={this.toggle('nested')}>
-                          Done
-                        </Button>{' '}
-                        <Button
-                          color="secondary"
-                          onClick={this.toggle('nested_parent')}>
-                          All Done
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                    
                   </ModalBody>
-
                   <ModalFooter>
                     <Button
                       color="success"
@@ -234,6 +159,150 @@ class ModalPage extends React.Component {
                     </Button>
                   </ModalFooter>
                 </Modal>
+
+
+                <Modal
+                  isOpen={this.state.modal_timesheet}
+                  toggle={this.toggle('timesheet')}
+                  className={this.props.className}>
+                  <ModalHeader toggle={this.toggle('timesheet')}>
+                    Enter Time Worked
+                  </ModalHeader>
+                  <ModalBody>
+                    <Card>
+                      <CardBody>
+                        <Row>
+                          <Col>
+                            <Card className="mb-3">
+                              <CardHeader>Worthy's Timesheet</CardHeader>
+                              <CardBody>
+                                <Table bordered responsive>
+                                  <thead>
+                                    <tr>
+                                      <th>Day</th>
+                                      <th>Actual</th>
+                                      <th>Regular</th>
+                                      <th>Detail</th>
+                                      <th>Holiday</th>
+                                      <th>OT</th>
+                                      <th>Overnight</th>
+                                      <th>Sick</th>
+                                      <th>Vacation</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th scope="row">Sunday</th>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Monday</th>
+                                      <td></td>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Tuesday</th>
+                                      <td></td>
+                                      <td></td>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Wednesday</th>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Thursday</th>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Friday</th>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>9:00am - 5:00pm</td>
+                                      <td></td>
+                                      <td></td>
+
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Saturday</th>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td>9:00am - 12:00pm</td>
+                                      <td>12:00pm - 5:00pm</td>
+
+                                    </tr>
+                                  </tbody>
+                                </Table>
+                              </CardBody>
+                            </Card>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="success"
+                      onClick={this.toggle('timesheet')}>
+                      Edit
+                    </Button>{' '}
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle('timesheet')}>
+                      Done
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+
+
+
+
+
+
               </CardBody>
             </Card>
 
