@@ -1,8 +1,7 @@
 {
-  "name": "react-reduction",
+  "name": "hot-times",
   "version": "1.0.0",
-  "private": false,
-  "homepage": "https://reduction-admin.github.io/react-reduction",
+  "private": true,
   "dependencies": {
     "bootstrap": "4.3.1",
     "chart.js": "2.7.2",

@@ -4,14 +4,14 @@ const db = require("../models");
 module.exports = {
   findAll: function(req, res) {
     db.Activity
-      .find(req.query)
+      .findAll(req.query)
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findById: function(req, res) {
     db.Activity
-      .findById(req.params.id)
+      .findByPk(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -29,7 +29,7 @@ module.exports = {
   },
   remove: function(req, res) {
     db.Activity
-      .findById({ _id: req.params.id })
+      .findByPk({ _id: req.params.id })
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
