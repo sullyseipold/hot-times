@@ -22,6 +22,7 @@ import {
   Table,
   UncontrolledButtonDropdown,
 } from 'reactstrap';
+import moment from 'moment';
 
 class ModalPage extends React.Component {
   state = {
@@ -31,6 +32,11 @@ class ModalPage extends React.Component {
     modal_nested: false,
     modal_timesheet: false,
     backdrop: true,
+    two_weeks_ago: moment().day(-14).format("ll").toString() + "-" + moment().day(-8).format("ll").toString(),
+    last_week: moment().day(-7).format("ll").toString() + "-" + moment().day(-1).format("ll").toString(),
+    this_week: moment().day(0).format("ll").toString() + "-" + moment().day(6).format("ll").toString(),
+    next_week: moment().day(7).format("ll").toString() + "-" + moment().day(13).format("ll").toString(),
+    following_week: moment().day(14).format("ll").toString() + "-" + moment().day(20).format("ll").toString(),
   };
 
   toggle = modalType => () => {
@@ -56,16 +62,12 @@ class ModalPage extends React.Component {
                 <FormGroup>
                   <Label for="exampleSelect">Select a Pay Period</Label>
                   <Input type="select" name="select">
-                    <option>May 26, 2019</option>
-                    <option>June 2, 2019</option>
-                    <option>June 9, 2019</option>
-                    <option>June 16, 2019</option>
-                    <option>June 23, 2019</option>
-                    <option>June 30, 2019</option>
-                    <option>July 7, 2019</option>
-                    <option>July 14, 2019</option>
-                    <option>July 21, 2019</option>
-                    <option>July 28, 2019</option>
+          
+                      <option>{this.state.two_weeks_ago}</option>
+                      <option>{this.state.last_week}</option>
+                      <option>{this.state.this_week}</option>
+                      <option>{this.state.next_week}</option>
+                      <option>{this.state.following_week}</option>
 
                   </Input>
                 </FormGroup>
