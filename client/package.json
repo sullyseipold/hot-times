@@ -2,7 +2,10 @@
   "name": "hot-times",
   "version": "1.0.0",
   "private": true,
+  "proxy": "http://localhost:3001/",
   "dependencies": {
+    "auth0-js": "^9.10.4",
+    "axios": "^0.18.0",
     "bootstrap": "4.3.1",
     "chart.js": "2.7.2",
     "classnames": "^2.2.6",

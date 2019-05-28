@@ -7,22 +7,22 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement:  true
     },
     startDateTime:  {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     endDateTime:  {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     activityType: {
       type: DataTypes.STRING,
-      allowNull:  false
+      // allowNull:  false
     }
   }, {});
   Activity.associate = function(models) {
     Activity.belongsTo(models.Timesheet, {
       foreignKey: {
-        allowNull:  false
+        allowNull:  true
       }
     });
   };
