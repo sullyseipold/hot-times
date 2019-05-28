@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
   Timesheet.associate = function(models) {
     Timesheet.belongsTo(models.User, {
       foreignKey: {
-        allowNull:  false
+        allowNull:  true
       }
     });
   };

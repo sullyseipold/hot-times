@@ -4,6 +4,12 @@ var db = require("./models");
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+const cors = require('cors');
+const morgan = require('morgan');
+
+
+app.use(cors());
+app.use(morgan('API Request (port 3001): :method :url :status :response-time ms - :res[content-length]'));
 
 // Define middleware here
 app.use(express.urlencoded({
@@ -22,9 +28,9 @@ var syncOptions = {
 };
 
 // If running on heroku, set syncOptions.force to true
-// if (process.env.NODE_ENV === "production") {
-//   syncOptions.force = true;
-// }
+if (process.env.NODE_ENV === "production") {
+  syncOptions.force = true;
+}
 
 db.sequelize.sync(syncOptions).then(function () {
 
