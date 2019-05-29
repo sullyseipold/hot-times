@@ -23,7 +23,18 @@ import {
   UncontrolledButtonDropdown,
 } from 'reactstrap';
 
+// import moment from "moment";
+// import "rc-time-picker/assets/index.css";
+// import InputMoment from "../../components/InputMoment/InputMoment";
+import API from '../utils/API';
+
+// function convertDate(date) {
+//     return moment(date).format("YYYY-MM-DD HH:mm:ss");
+// };
+
 class ModalPage extends React.Component {
+
+
   state = {
     modal: false,
     modal_backdrop: false,
@@ -45,17 +56,64 @@ class ModalPage extends React.Component {
     });
   };
 
+  handleStartTimeChange = e => {
+    this.setState({ startTime: e.target.value });
+  };
+
+  handleEndTimeChange = e => {
+    this.setState({ endTime: e.target.value });
+  };
+
+  handleStartDateChange = e => {
+    this.setState({ startDate: e.target.value });
+  };
+
+  handleEndDateChange = e => {
+    this.setState({ endDate: e.target.value });
+  };
+
+  handleHourTypeChange = e => {
+    this.setState({ hourType: e.target.value });
+  };
+
+  handleClick = () => {
+    console.log(this.state);
+    var startDate = this.state.startDate;
+    var endDate = this.state.endDate;
+
+    var startTime = this.state.startTime;
+    var endTime = this.state.endTime;
+    var startDateTime = startDate + ' ' + startTime;
+
+    var endDateTime = endDate + ' ' + endTime;
+
+    console.log({
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+      activityType: this.state.hourType,
+    });
+    API.saveActivity({
+      startDateTime: startDateTime,
+      endDateTime: endDateTime,
+    });
+  };
+
   render() {
     return (
       <Page title="Timesheets">
+        
         <Row>
           <Col md="12" sm="12" xs="12">
             <Card>
-              <CardHeader></CardHeader>
+              <CardHeader />
               <CardBody>
                 <FormGroup>
-                  <Label for="exampleSelect">Select a Pay Period</Label>
-                  <Input type="select" name="select">
+                  <Label for="payPeriod">Select a Pay Period</Label>
+                  <Input
+                    type="select"
+                    name="payPeriod"
+                    onChange={this.handlePayPeriodChange}
+                  >
                     <option>May 26, 2019</option>
                     <option>June 2, 2019</option>
                     <option>June 9, 2019</option>
@@ -66,67 +124,80 @@ class ModalPage extends React.Component {
                     <option>July 14, 2019</option>
                     <option>July 21, 2019</option>
                     <option>July 28, 2019</option>
-
                   </Input>
                 </FormGroup>
-                <Button color="secondary" onClick={this.toggle('nested_parent')}>
-                  Enter Time
+                <Button
+                  color="secondary"
+                  onClick={this.toggle('nested_parent')}
+                >
+                  Add Shift
                 </Button>{' '}
                 <Button color="primary" onClick={this.toggle('timesheet')}>
-                  Timesheet
+                  View Timesheet
                 </Button>
                 <Modal
                   isOpen={this.state.modal_nested_parent}
                   toggle={this.toggle('nested_parent')}
-                  className={this.props.className}>
+                  className={this.props.className}
+                >
                   <ModalHeader toggle={this.toggle('nested_parent')}>
                     Enter Time Worked
                   </ModalHeader>
+
                   <ModalBody>
                     <Card>
                       {/* <CardHeader>Start and End Dates</CardHeader> */}
                       <CardBody>
                         <FormGroup>
-                          <Label for="exampleDate">Start Date</Label>
+                          <Label for="startDate">Start Date</Label>
                           <Input
                             type="date"
-                            name="date"
-                            id="exampleDate"
-                            placeholder="date placeholder"
+                            name="startDate"
+                            placeholder="Start Date"
+                            defaultValue={new Date()}
+                            onChange={this.handleStartDateChange}
                           />
                         </FormGroup>
                         <FormGroup>
-                          <Label for="exampleTime">Start Time</Label>
+                          <Label for="startTime">Start Time</Label>
                           <Input
                             type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
+                            name="startTime"
+                            placeholder="Start Time"
+                            onChange={this.handleStartTimeChange}
                           />
                         </FormGroup>
+
                         <FormGroup>
-                          <Label for="exampleDate">End Date</Label>
+                          <Label for="endDate">End Date</Label>
                           <Input
                             type="date"
-                            name="date"
-                            id="exampleDate"
-                            placeholder="date placeholder"
+                            name="endDate"
+                            placeholder="End Date"
+                            onChange={this.handleEndDateChange}
                           />
                         </FormGroup>
                         <FormGroup>
-                          <Label for="exampleTime">End Time</Label>
+                          <Label for="endTime">End Time</Label>
                           <Input
                             type="time"
-                            name="time"
-                            id="exampleTime"
-                            placeholder="time placeholder"
+                            name="endTime"
+                            placeholder="End Time"
+                            onChange={this.handleEndTimeChange}
                           />
                         </FormGroup>
+
                         <Form>
                           <FormGroup>
-                            <Label for="exampleSelect">Select Hour Type</Label>
-                            <Input type="select" name="select">
-                              <option>Regular Hours</option>
+                            <Label for="hourType">Select Hour Type</Label>
+                            <Input
+                              type="select"
+                              name="hourType"
+                              onChange={this.handleHourTypeChange}
+                            >
+                              <option type="text" name="Regular Hours">
+                                Regular Hours
+                              </option>
                               <option>Overnight Duty</option>
                               <option>Detail</option>
                               <option>OT</option>
@@ -147,24 +218,22 @@ class ModalPage extends React.Component {
                     </Button> */}
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      color="success"
-                      onClick={this.toggle('nested_parent')}>
+                    <Button color="success" onClick={this.handleClick}>
                       Save Time Entry
                     </Button>{' '}
                     <Button
                       color="secondary"
-                      onClick={this.toggle('nested_parent')}>
+                      onClick={this.toggle('nested_parent')}
+                    >
                       Cancel
                     </Button>
                   </ModalFooter>
                 </Modal>
-
-
                 <Modal
                   isOpen={this.state.modal_timesheet}
                   toggle={this.toggle('timesheet')}
-                  className={this.props.className}>
+                  className={this.props.className}
+                >
                   <ModalHeader toggle={this.toggle('timesheet')}>
                     Enter Time Worked
                   </ModalHeader>
@@ -194,86 +263,79 @@ class ModalPage extends React.Component {
                                     <tr>
                                       <th scope="row">Sunday</th>
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Monday</th>
-                                      <td></td>
+                                      <td />
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Tuesday</th>
-                                      <td></td>
-                                      <td></td>
+                                      <td />
+                                      <td />
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Wednesday</th>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
+                                      <td />
+                                      <td />
+                                      <td />
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Thursday</th>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Friday</th>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                       <td>9:00am - 5:00pm</td>
-                                      <td></td>
-                                      <td></td>
-
+                                      <td />
+                                      <td />
                                     </tr>
                                     <tr>
                                       <th scope="row">Saturday</th>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
-                                      <td></td>
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
+                                      <td />
                                       <td>9:00am - 12:00pm</td>
                                       <td>12:00pm - 5:00pm</td>
-
                                     </tr>
                                   </tbody>
                                 </Table>
@@ -285,27 +347,19 @@ class ModalPage extends React.Component {
                     </Card>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      color="success"
-                      onClick={this.toggle('timesheet')}>
+                    <Button color="success" onClick={this.toggle('timesheet')}>
                       Edit
                     </Button>{' '}
                     <Button
                       color="secondary"
-                      onClick={this.toggle('timesheet')}>
+                      onClick={this.toggle('timesheet')}
+                    >
                       Done
                     </Button>
                   </ModalFooter>
                 </Modal>
-
-
-
-
-
-
               </CardBody>
             </Card>
-
           </Col>
         </Row>
       </Page>
