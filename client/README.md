@@ -1,27 +1,25 @@
-# [React Reduction - Free Admin Template Built with React and Bootstrap4](https://reduction-admin.github.io/react-reduction/)
+# Hot Times
 
-![React Reduction](public/img/screenshots/reduction-admin.jpg?raw=true 'React Reduction')
+Do you feel that keeping track of your timesheets is cutting back on your productivity and efficiency at the workplace? Is reminding employees to keep track of their timesheets becoming another tedious job?
+If so, We have the solution to your problem! Hot Times!!
 
-## Preview
+Hot Times will eliminate the need for this antiquated practice. No need for constant reminder emails, only a simple process of entering timesheets faster, quicker approval from managers, and faster paychecks for employees.
 
-You can check out [live preview](https://reduction-admin.github.io/react-reduction/).
 
-## Quick Start
+Hot Times was built to help service worker or volunteers to track their hours easily from wherever they may be on their mobile phones,  eliminating the need for paperwork.
 
-1.  Clone the repo `git clone https://github.com/reduction-admin/react-reduction.git`
-2.  Go to your project folder from your terminal
-3.  Run: `npm install` or `yarn install`
-4.  After install, run: `npm run start` or `yarn start`
-5.  It will open your browser(http://localhost:3000)
+It allows employees to record details about their working shift (hours, pay, tracking vacation time off, etc.)for each day worked, the company can track how many sick hours were accrued, and employees have the benefit of knowing how many hours are available on demand. 
 
-## Note
+There are no doubts as to what you should be  paid, due to state of the art "Clock-in-clock-out" technology.
 
-React Reduction is built on top of [Create React App](https://github.com/facebook/create-react-app), which means all features that create-react-app supports are available.
-
-To enable basic Google Analytics page tracking, you can add "REACT_APP_GOOGLE_ANALYTICS" variable in .env(or create env.production) file. For example, `REACT_APP_GOOGLE_ANALYTICS=xxxxxx` like this.
-
-## More Bootstrap Themes
-
-If you want more premium or free React Bootstrap themes, you can get it [here](https://flatlogic.com/admin-dashboards?ref=w7yTz44arn)
-
-[![Flat Logic](public/img/screenshots/flatlogic.com_admin-dashboards_react.png)](https://flatlogic.com/admin-dashboards?ref=w7yTz44arn)
+- How does Hot Times work?
+1. Login
+2. Choose pay period
+3. Select day
+4. Select hour category
+5. Select start time
+6. Select end time
+7. Select done.
+8. Select next day.
+9. Submit timesheet
+10. Check out accrued vacation hours and sick hours.
