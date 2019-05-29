@@ -239,9 +239,13 @@ class ModalPage extends React.Component {
 
           </Col>
         </Row>
+        
       </Page>
     );
   }
 }
+
+
+
 
 export default ModalPage;
