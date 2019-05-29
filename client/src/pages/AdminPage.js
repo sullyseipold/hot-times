@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import API from '../utils/API';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
+import AdminTimesheet from '../components/AdminTimesheet';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
+
+
 
 
 class AdminPage extends React.Component {
   state = {
     users: [],
+    employee: "",
+    employeeID: 0,
     two_weeks_ago: moment().day(-14).format("ll").toString() + "-" + moment().day(-8).format("ll").toString(),
     last_week: moment().day(-7).format("ll").toString() + "-" + moment().day(-1).format("ll").toString(),
     this_week: moment().day(0).format("ll").toString() + "-" + moment().day(6).format("ll").toString(),
     next_week: moment().day(7).format("ll").toString() + "-" + moment().day(13).format("ll").toString(),
     following_week: moment().day(14).format("ll").toString() + "-" + moment().day(20).format("ll").toString(),
-    chosen_weeks: ""
+    chosen_weeks: "",
+    start: "",
+    end:""
   };
 
   componentDidMount() {
@@ -29,6 +37,8 @@ class AdminPage extends React.Component {
         })
       .catch(err => console.log(err));
   };
+
+
   handleChange = (e) => {
     let options = e.target.options;
     var value = [];
@@ -42,11 +52,30 @@ class AdminPage extends React.Component {
     });
     };
 
+  chooseEmployee = (e) => {
+    const selectedIndex = e.target.options.selectedIndex;
+    this.setState({
+      employee: e.target.value,
+      employeeID: e.target.options[selectedIndex].getAttribute('id')
+    })
+  
+  };
 
   handleSubmit = () => {
-    console.log(this.state.chosen_weeks)
+    let employeeID = this.state.employeeID;
+    let str = this.state.chosen_weeks.toString();
+    let formatStr= str.split("-");
+    let startDate = moment(formatStr[0]).format('YYYY-MM-DD');
+    console.log(startDate)
 
-  }
+    API.getTimesheet(employeeID)
+    .then(
+      res => {   
+        console.log(res.data)
+      })
+    .catch(err => console.log(err));
+
+  };
 
   render() {
     let users = this.state.users;
@@ -56,11 +85,12 @@ class AdminPage extends React.Component {
     
       <FormGroup>
         <Label>Select Employee</Label>
-        <Input type="select" name="select">
+        <Input type="select" name="select"  onClick={this.chooseEmployee}>
         {users.map((user) => (
 
            <option
            key={user.id}
+           id={user.id}
            >
            {user.lastName},{user.firstName}
            </option>
@@ -80,8 +110,12 @@ class AdminPage extends React.Component {
             <br>
             </br>
         <Button onClick={this.handleSubmit}>View timesheet</Button>
+
+        <AdminTimesheet
+        employee={this.state.employee}>
+        </AdminTimesheet>
           </FormGroup>
-    
+   
      
     );
   

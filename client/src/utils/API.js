@@ -13,6 +13,11 @@ export default {
   deleteUser: function(id) {
     return axios.delete("/api/user/" + id);
   },
+
+  getTimesheet: function(UserId){
+    return axios.get("/api/timesheet/" + UserId)
+  },
+
   // Saves a user to the database
   saveUser: function(user) {
     return axios({
@@ -20,6 +25,9 @@ export default {
       baseURL:"http://localhost:3001/api/user",
       data: user
     });
+
+  
+    
   },
     // Deletes the user with the given id
     // deleteUser: function(id) {

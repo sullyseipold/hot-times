@@ -1,6 +1,7 @@
 const db = require("../models");
 
 // Defining methods for the timesheetController
+
 module.exports = {
   findAll: function(req, res) {
     db.Timesheet
