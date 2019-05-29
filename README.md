@@ -12,14 +12,14 @@ It allows employees to record details about their working shift (hours, pay, tra
 
 There are no doubts as to what you should be  paid, due to state of the art "Clock-in-clock-out" technology.
 
-How does Hot Times work?
-Login
-Choose pay period
-Select day
-Select hour category
-Select start time
-Select end time
-Select done.
-Select next day.
-Submit timesheet
-Check out accrued vacation hours and sick hours.
+- How does Hot Times work?
+1. Login
+2. Choose pay period
+3. Select day
+4. Select hour category
+5. Select start time
+6. Select end time
+7. Select done.
+8. Select next day.
+9. Submit timesheet
+10. Check out accrued vacation hours and sick hours.
