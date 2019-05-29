@@ -35,6 +35,7 @@
     "react-input-slider": "^5.0.14",
     "react-router-dom": "^5.0.0",
     "reactstrap": "^8.0.0",
+    "save": "^2.4.0",
     "sequelize": "^5.8.6",
     "sequelize-cli": "^5.4.0"
   }
