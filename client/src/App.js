@@ -23,6 +23,7 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import AdminPage from './pages/AdminPage';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -151,6 +152,12 @@ class App extends React.Component {
               path="/register"
               layout={MainLayout}
               component={AuthPage}
+            />
+            <LayoutRoute
+              exact
+              path="/admin"
+              layout={MainLayout}
+              component={AdminPage}
             />
             <Redirect to="/" />
           </Switch>
