@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Router } from 'react-router-dom';
-import App from './App';
+import App from './pages/loginAuth0';
 import Home from './home/home';
 import Profile from './Profile/profile';
 import Ping from './Ping/Ping';

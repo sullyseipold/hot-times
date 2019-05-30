@@ -34,6 +34,7 @@
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
+    "prop-types": "^15.7.2",
     "rc-time-picker": "^3.6.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

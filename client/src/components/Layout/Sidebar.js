@@ -1,5 +1,5 @@
-import logo200Image from 'assets/img/logo/logo_200.png';
-import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
+// import logo200Image from 'assets/img/logo/logo_200.png';
+// import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import SourceLink from 'components/SourceLink';
 import React from 'react';
 import { FaGithub } from 'react-icons/fa';
@@ -38,7 +38,7 @@ import {
 import bn from 'utils/bemnames';
 
 const sidebarBackground = {
-  backgroundImage: `url("${sidebarBgImage}")`,
+  // backgroundImage: `url("${sidebarBgImage}")`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
 };
@@ -62,13 +62,13 @@ const navComponents = [
   // { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
   // { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
   // { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
-  { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
+  { to: '/modals', name: 'Time Sheets', exact: false, Icon: MdViewDay },
 ];
 
-const navContents = [
-  { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
-  { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
-];
+// const navContents = [
+//   { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
+//   { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
+// ];
 
 const pageContents = [
   // { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
@@ -81,8 +81,8 @@ const pageContents = [
 ];
 
 const navItems = [
-  { to: '/', name: 'Time Cards', exact: true, Icon: MdDashboard },
-  { to: '/cards', name: 'Login', exact: false, Icon: MdWeb },
+  // { to: '/', name: 'Time Cards', exact: true, Icon: MdDashboard },
+  { to: '/login-auth0', name: 'Login', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'Employees', exact: false, Icon: MdInsertChart },
   // { to: '/widgets', name: 'wdgets', exact: false, Icon: MdWidgets },
 ];
@@ -108,13 +108,13 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      <aside className={bem.b()} data-image={sidebarBgImage}>
-        <div className={bem.e('background')} style={sidebarBackground} />
+      <aside className={bem.b()} >
+        <div className={bem.e('background')}  />
         <div className={bem.e('content')}>
           <Navbar>
             <SourceLink className="navbar-brand d-flex">
               <img
-                src={logo200Image}
+                // src={logo200Image}
                 width="40"
                 height="30"
                 className="pr-2"

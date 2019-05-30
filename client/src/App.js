@@ -1,106 +1,53 @@
-import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import React from 'react';
+import {withRouter} from 'react-router';
+import {Route} from 'react-router-dom';
+import Callback from './Callback/callback';
 
-class App extends Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
-  }
 
-  login() {
-    this.props.auth.login();
-  }
 
-  logout() {
-    this.props.auth.logout();
-  }
+function HomePage(props) {
+  const {authenticated} = props;
 
-  componentDidMount() {
-    const { renewSession } = this.props.auth;
+  const logout = () => {
+    props.auth.logout();
+    props.history.push('/');
+  };
 
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      renewSession();
-    }
-  }
-
-  render() {
-    const { isAuthenticated, userHasScopes } = this.props.auth;
-
+  if (authenticated) {
+    const {name} = props.auth.getProfile();
     return (
       <div>
-        {/* <Navbar fluid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#">Auth0 - React</a>
-            </Navbar.Brand> */}
-            <Button
-              bsStyle="primary"
-              className="btn-margin"
-              onClick={this.goTo.bind(this, 'home')}
-            >
-              Home
-            </Button>
-            {
-              !isAuthenticated() && (
-                  <Button
-                    id="qsLoginBtn"
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.login.bind(this)}
-                  >
-                    Log In
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.goTo.bind(this, 'profile')}
-                  >
-                    Profile
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.goTo.bind(this, 'ping')}
-                  >
-                    Ping
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() &&  userHasScopes(['write:messages']) && (
-                  <Button
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.goTo.bind(this, 'admin')}
-                  >
-                    Admin
-                  </Button>
-                )
-            }
-            {
-              isAuthenticated() && (
-                  <Button
-                    id="qsLogoutBtn"
-                    bsStyle="primary"
-                    className="btn-margin"
-                    onClick={this.logout.bind(this)}
-                  >
-                    Log Out
-                  </Button>
-                )
-            }
-          {/* </Navbar.Header>
-        </Navbar> */}
+        <h1>Howdy! Glad to see you back, {name}.</h1>
+        <button onClick={logout}>Log out</button>
       </div>
     );
   }
+
+  return (
+    <div>
+      <h1>I don't know you. Please, log in.</h1>
+      <button onClick={props.auth.login}>Log in</button>
+    </div>
+  );
 }
 
-export default App;
+function App(props) {
+  const authenticated = props.auth.isAuthenticated();
+
+  return (
+    <div className="App">
+      <Route exact path='/callback' render={() => (
+        <Callback auth={props.auth}/>
+      )}/>
+      <Route exact path='/' render={() => (
+        <HomePage
+          authenticated={authenticated}
+          auth={props.auth}
+          history={props.history}
+        />)
+      }/>
+    </div>
+  );
+}
+
+export default withRouter(App);
