@@ -34,7 +34,7 @@ const bem = bn.create('header');
 
 const MdNotificationsActiveWithBadge = withBadge({
   size: 'md',
-  color: 'primary',
+  color: 'dark',
   style: {
     top: -10,
     right: -10,
@@ -79,7 +79,7 @@ class Header extends React.Component {
     const { isNotificationConfirmed } = this.state;
 
     return (
-      <Navbar light expand className={bem.b('bg-white')}>
+      <Navbar light expand className={bem.b('bg-black')}>
         <Nav navbar className="mr-2">
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />

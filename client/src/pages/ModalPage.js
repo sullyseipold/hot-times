@@ -129,12 +129,12 @@ class ModalPage extends React.Component {
                   </Input>
                 </FormGroup>
                 <Button
-                  color="secondary"
+                  color="dark"
                   onClick={this.toggle('nested_parent')}
                 >
                   Add Shift
                 </Button>{' '}
-                <Button color="primary" onClick={this.toggle('timesheet')}>
+                <Button color="danger" onClick={this.toggle('timesheet')}>
                   View Timesheet
                 </Button>
                 <Modal
