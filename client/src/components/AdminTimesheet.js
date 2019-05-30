@@ -22,7 +22,7 @@ import {
           } = this.props;
 
       return (
-          <Card className="mb-3">
+          <Card className="mb-10">
             <CardHeader>{employee}</CardHeader>
             <CardBody>
               <Row>

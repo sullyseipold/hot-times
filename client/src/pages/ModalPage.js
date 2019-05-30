@@ -106,7 +106,7 @@ class ModalPage extends React.Component {
 
   render() {
     return (
-      <Page title="Timesheets">
+      <Page title="(ModalPage)Timesheets">
         
         <Row>
           <Col md="12" sm="12" xs="12">
