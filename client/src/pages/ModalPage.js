@@ -2,14 +2,10 @@ import Page from 'components/Page';
 import React from 'react';
 import {
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   CardHeader,
   Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   Form,
   FormGroup,
   Input,
@@ -19,23 +15,22 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
-  Table,
-  UncontrolledButtonDropdown,
+  Table
 } from 'reactstrap';
-import moment from 'moment';
 
-// import moment from "moment";
+import moment from "moment";
 // import "rc-time-picker/assets/index.css";
 // import InputMoment from "../../components/InputMoment/InputMoment";
 import API from '../utils/API';
+import WeekSelector from '../components/WeekSelector';
+import { verify } from 'crypto';
+
 
 // function convertDate(date) {
 //     return moment(date).format("YYYY-MM-DD HH:mm:ss");
 // };
 
 class ModalPage extends React.Component {
-
-
   state = {
     modal: false,
     modal_backdrop: false,
@@ -43,11 +38,63 @@ class ModalPage extends React.Component {
     modal_nested: false,
     modal_timesheet: false,
     backdrop: true,
-    two_weeks_ago: moment().day(-14).format("ll").toString() + "-" + moment().day(-8).format("ll").toString(),
-    last_week: moment().day(-7).format("ll").toString() + "-" + moment().day(-1).format("ll").toString(),
-    this_week: moment().day(0).format("ll").toString() + "-" + moment().day(6).format("ll").toString(),
-    next_week: moment().day(7).format("ll").toString() + "-" + moment().day(13).format("ll").toString(),
-    following_week: moment().day(14).format("ll").toString() + "-" + moment().day(20).format("ll").toString(),
+    two_weeks_ago:
+      moment()
+        .day(-14)
+        .format('ll')
+        .toString() +
+      ' - '  +
+      moment()
+        .day(-8)
+        .format('ll')
+        .toString(),
+    last_week:
+      moment()
+        .day(-7)
+        .format('ll')
+        .toString() +
+      ' - ' +
+      moment()
+        .day(-1)
+        .format('ll')
+        .toString(),
+    this_week:
+      moment()
+        .day(0)
+        .format('ll')
+        .toString() +
+      ' - ' +
+      moment()
+        .day(6)
+        .format('ll')
+        .toString(),
+    next_week:
+      moment()
+        .day(7)
+        .format('ll')
+        .toString() +
+      ' - ' +
+      moment()
+        .day(13)
+        .format('ll')
+        .toString(),
+    following_week:
+      moment()
+        .day(14)
+        .format('ll')
+        .toString() +
+      ' - ' +
+      moment()
+        .day(20)
+        .format('ll')
+        .toString(),
+    startDate: '',
+    endDate: '',
+    startTime: '',
+    endTime: '',
+    chosen_weeks: '',
+    sheetEndDate: '',
+    sheetStartDate:''
   };
 
   toggle = modalType => () => {
@@ -62,47 +109,95 @@ class ModalPage extends React.Component {
     });
   };
 
+//verify that a time range is picked. Placeholder is value of first option,
+//!options does not disable a submit yet
+
+  checkValue = e => {
+    let options = e.target.value;
+    console.log(options)
+    if (options === "placeholder" || !options  ) {
+      alert("please select a date range")
+    } 
+  };
+
+// Start Time 
   handleStartTimeChange = e => {
     this.setState({ startTime: e.target.value });
   };
 
+//End Time
   handleEndTimeChange = e => {
     this.setState({ endTime: e.target.value });
   };
 
+//Start Date
   handleStartDateChange = e => {
     this.setState({ startDate: e.target.value });
   };
 
+//End Date
   handleEndDateChange = e => {
     this.setState({ endDate: e.target.value });
   };
 
+//Hour type (activity type)
   handleHourTypeChange = e => {
     this.setState({ hourType: e.target.value });
   };
 
+//Timesheet Dates
+  handleDateChange = e => {
+    let options = e.target.value;
+    this.setState({
+      chosen_weeks: options,
+    });
+    console.log(options)
+  };
+
+//Set time period and parse Start and End date of time period
+  handlePayPeriodChange = e => {
+    let options = e.target.value;
+    let formatStr = options.split('-');
+    let sheetStartDate = moment(formatStr[0]).format('YYYY-MM-DD');
+    let sheetEndDate = moment(formatStr[1]).format('YYYY-MM-DD');
+
+    this.setState({
+      chosen_weeks: options,
+      sheetEndDate: sheetEndDate,
+      sheetStartDate: sheetStartDate
+    });
+    
+  };
+
+  
+//Save to database
   handleClick = () => {
-    console.log(this.state);
+  
     var startDate = this.state.startDate;
     var endDate = this.state.endDate;
-
     var startTime = this.state.startTime;
     var endTime = this.state.endTime;
     var startDateTime = startDate + ' ' + startTime;
-
     var endDateTime = endDate + ' ' + endTime;
 
-    console.log({
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
-      activityType: this.state.hourType,
-    });
-    API.saveActivity({
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
-    });
+    //input validation for time entry
+
+    if (moment(startDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate) && 
+    moment(endDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate) && 
+    (moment(startDate).isBefore(endDate)))
+    {
+      API.saveActivity({
+        startDateTime: startDateTime,
+        endDateTime: endDateTime,
+      });
+
+    } else {
+      alert(`please choose a date between ${this.state.chosen_weeks}, and make sure start date is before end date`);
+    }
+   
   };
+
+
 
   render() {
     return (
@@ -113,24 +208,17 @@ class ModalPage extends React.Component {
             <Card>
               <CardHeader />
               <CardBody>
-                <FormGroup>
-          
-                  <Label for="payPeriod">Select a Pay Period</Label>
-                  <Input
-                    type="select"
-                    name="payPeriod"
-                    onChange={this.handlePayPeriodChange}
-                  >
-                    <option>{this.state.two_weeks_ago}</option>
-                      <option>{this.state.last_week}</option>
-                      <option>{this.state.this_week}</option>
-                      <option>{this.state.next_week}</option>
-                      <option>{this.state.following_week}</option>
-                  </Input>
-                </FormGroup>
+                <WeekSelector
+                two_weeks_ago = { this.state.two_weeks_ago }
+                last_week = { this.state.last_week }
+                this_week = { this.state.this_week } 
+                next_week = { this.state.next_week }
+                following_week = { this.state.following_week }
+                handleDateChange = { this.handlePayPeriodChange }/>
                 <Button
                   color="dark"
                   onClick={this.toggle('nested_parent')}
+                  onSubmit={this.checkValue}
                 >
                   Add Shift
                 </Button>{' '}
@@ -143,12 +231,11 @@ class ModalPage extends React.Component {
                   className={this.props.className}
                 >
                   <ModalHeader toggle={this.toggle('nested_parent')}>
-                    Enter Time Worked
+                    Enter Time Worked from {this.state.chosen_weeks}
                   </ModalHeader>
 
                   <ModalBody>
                     <Card>
-                      {/* <CardHeader>Start and End Dates</CardHeader> */}
                       <CardBody>
                         <FormGroup>
                           <Label for="startDate">Start Date</Label>
@@ -215,9 +302,7 @@ class ModalPage extends React.Component {
                       </CardBody>
                     </Card>
                     <br />
-                    {/* <Button color="success" onClick={this.toggle('nested')}>
-                      Enter Start and End Time
-                    </Button> */}
+                   
                   </ModalBody>
                   <ModalFooter>
                     <Button color="success" onClick={this.handleClick}>

@@ -18,12 +18,13 @@ import {
     render() {
        
         const {
-         employee
+         employee,
+         chosen_weeks
           } = this.props;
 
       return (
-          <Card className="mb-10">
-            <CardHeader>{employee}</CardHeader>
+          <Card className="mb-3">
+            <CardHeader>{employee} - {chosen_weeks}</CardHeader>
             <CardBody>
               <Row>
                 <Col>
@@ -38,8 +39,6 @@ import {
                         </tr>
                       </thead>
                       <tbody>
-
-                        
                         <tr>
                           <th scope="row">1</th>
                           <td>Mark</td>
