@@ -2,8 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 function Callback(props) {
+  // const {authenticated} = props;
+
+
   props.auth.handleAuthentication().then(() => {
-    props.history.push('/');
+    
+    props.auth.getProfile();
+    props.history.push('/admin');
+
   });
 
   return (

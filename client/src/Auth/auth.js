@@ -10,7 +10,7 @@ export default class Auth {
       domain: AUTH_CONFIG.domain,
       clientID: AUTH_CONFIG.clientId,
       redirectUri: AUTH_CONFIG.callbackUrl,
-      audience: AUTH_CONFIG.apiUrl,
+      // audience: AUTH_CONFIG.apiUrl,
       responseType: 'token id_token',
       scope: 'openid profile'
     });

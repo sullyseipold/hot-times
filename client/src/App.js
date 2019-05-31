@@ -31,6 +31,7 @@ import Callback from './Callback/callback';
 
 
 function HomePage(props) {
+  console.log(props)
   const { authenticated } = props;
 
 
@@ -43,7 +44,9 @@ function HomePage(props) {
 
 
   if (authenticated) {
+    console.log(this);
     const { name } = props.auth.getProfile();
+    console.log(name);
     return (
       <div>
         <h1>Howdy! Glad to see you back, {name}.</h1>
