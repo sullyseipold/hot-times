@@ -62,7 +62,7 @@ const navComponents = [
   // { to: '/badges', name: 'badges', exact: false, Icon: MdStar },
   // { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
   // { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
-  { to: '/modals', name: 'modals', exact: false, Icon: MdViewDay },
+  { to: '/modals', name: 'Time Sheets', exact: false, Icon: MdViewDay },
 ];
 
 const navContents = [
@@ -81,7 +81,7 @@ const pageContents = [
 ];
 
 const navItems = [
-  { to: '/', name: 'Time Cards', exact: true, Icon: MdDashboard },
+  // { to: '/', name: 'Time Cards', exact: true, Icon: MdDashboard },
   { to: '/cards', name: 'Login', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'Employees', exact: false, Icon: MdInsertChart },
   // { to: '/widgets', name: 'wdgets', exact: false, Icon: MdWidgets },

@@ -201,7 +201,8 @@ class ModalPage extends React.Component {
 
   render() {
     return (
-      <Page title="Timesheets">
+      <Page title="(ModalPage)Timesheets">
+        
         <Row>
           <Col md="12" sm="12" xs="12">
             <Card>
@@ -215,13 +216,13 @@ class ModalPage extends React.Component {
                 following_week = { this.state.following_week }
                 handleDateChange = { this.handlePayPeriodChange }/>
                 <Button
-                  color="secondary"
+                  color="dark"
                   onClick={this.toggle('nested_parent')}
                   onSubmit={this.checkValue}
                 >
                   Add Shift
                 </Button>{' '}
-                <Button color="primary" onClick={this.toggle('timesheet')}>
+                <Button color="danger" onClick={this.toggle('timesheet')}>
                   View Timesheet
                 </Button>
                 <Modal

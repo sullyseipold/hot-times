@@ -26,26 +26,20 @@ import {
 
 const CardPage = () => {
   return (
-    <Page title="Cards" breadcrumbs={[{ name: 'cards', active: true }]}>
+    <Page title="(CardPage)Login" breadcrumbs={[{ name: 'Login', active: true }]}>
       <Row>
-        <Col md={6} sm={6} xs={12} className="mb-3">
+        {/* <Col md={6} sm={6} xs={12} className="mb-3">
           <Card className="flex-row">
             <CardImg
               className="card-img-left"
               src={bg1Image}
               style={{ width: 'auto', height: 150 }}
             />
-            <CardBody>
-              <CardTitle>Horizontal Image Card(Left)</CardTitle>
-              <CardText>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </CardText>
-            </CardBody>
+            
           </Card>
-        </Col>
+        </Col> */}
 
-        <Col md={6} sm={6} xs={12} className="mb-3">
+        {/* <Col md={6} sm={6} xs={12} className="mb-3">
           <Card className="flex-row">
             <CardBody>
               <CardTitle>Horizontal Image Card(Right)</CardTitle>
@@ -57,10 +51,10 @@ const CardPage = () => {
               style={{ width: 'auto', height: 150 }}
             />
           </Card>
-        </Col>
+        </Col> */}
       </Row>
       <Row>
-        <Col md={6} sm={6} xs={12} className="mb-3">
+        {/* <Col md={6} sm={6} xs={12} className="mb-3">
           <Card>
             <CardImg top src={bg11Image} />
             <CardBody>
@@ -96,11 +90,11 @@ const CardPage = () => {
               </CardLink>
             </CardBody>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
 
       <Row>
-        {['', 'top', 'left', 'right'].map((color, index) => (
+        {/* {['', 'top', 'left', 'right'].map((color, index) => (
           <Col key={index} md={6} sm={6} xs={12} className="mb-3">
             <Card
               inverse
@@ -124,11 +118,11 @@ const CardPage = () => {
               </CardBody>
             </Card>
           </Col>
-        ))}
+        ))} */}
       </Row>
 
       <Row>
-        {overlayCards.map(({ imgUrl }, index) => {
+        {/* {overlayCards.map(({ imgUrl }, index) => {
           return (
             <Col key={index} md={6} sm={6} xs={12}>
               <Card inverse className="text-center">
@@ -145,11 +139,11 @@ const CardPage = () => {
               </Card>
             </Col>
           );
-        })}
+        })} */}
       </Row>
 
       <Row>
-        <Col md={5}>
+        {/* <Col md={5}>
           <UserCard
             avatar={user1Image}
             title="Chris"
@@ -182,11 +176,11 @@ const CardPage = () => {
               <CardTitle>Chart Card</CardTitle>
             </CardBody>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
 
       <Row>
-        {bgCards.map(({ color }, index) => (
+        {/* {bgCards.map(({ color }, index) => (
           <Col key={index} lg={4} md={6} sm={6} xs={12} className="mb-3">
             <Card inverse color={color}>
               <CardBody>
@@ -200,11 +194,11 @@ const CardPage = () => {
               </CardBody>
             </Card>
           </Col>
-        ))}
+        ))} */}
       </Row>
 
       <Row>
-        {gradientCards.map(({ color }, index) => (
+        {/* {gradientCards.map(({ color }, index) => (
           <Col key={index} lg={4} md={6} sm={6} xs={12} className="mb-3">
             <Card
               inverse
@@ -217,7 +211,7 @@ const CardPage = () => {
               </CardBody>
             </Card>
           </Col>
-        ))}
+        ))} */}
       </Row>
     </Page>
   );
