@@ -26,46 +26,7 @@ import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import './styles/reduction.scss';
 import AdminPage from './pages/AdminPage';
 import Callback from './Callback/callback';
-
-
-
-
-function HomePage(props) {
-  console.log(props)
-  const { authenticated } = props;
-
-
-  const logout = () => {
-    props.auth.logout();
-    props.history.push('/');
-  };
-
-
-
-
-  if (authenticated) {
-    console.log(this);
-    const { name } = props.auth.getProfile();
-    console.log(name);
-    return (
-      <div>
-        <h1>Howdy! Glad to see you back, {name}.</h1>
-        <button onClick={logout}>Log out</button>
-      </div>
-    );
-  }
-
-
-
-  return (
-
-    <div>
-      <h1>I don't know you. Please, log in.</h1>
-      <button onClick={props.auth.login}>Log in</button>
-    </div>
-  );
-}
-
+import HomePage from './Homepage/Homepage';
 
 
 const getBasename = () => {

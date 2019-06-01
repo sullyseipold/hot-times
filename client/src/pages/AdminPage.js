@@ -6,61 +6,46 @@ import AdminTimesheet from '../components/AdminTimesheet';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
 import WeekSelector from '../components/WeekSelector';
 
+function momFormat(int){
+return moment().day(int).format('ll').toString();
+};
+
+const twoWeeks = 14;
+const oneWeek = 7;
+const zero = 0;
+
+
+
+function sixDays(start){
+  return (start + 6);
+}
+
 class AdminPage extends React.Component {
   state = {
     users: [],
     chosenEmployee: '',
     employeeID: 0,
     two_weeks_ago:
-      moment()
-        .day(-14)
-        .format('ll')
-        .toString() +
+
+      momFormat(-twoWeeks) +
       ' - ' +
-      moment()
-        .day(-8)
-        .format('ll')
-        .toString(),
+      momFormat(sixDays(-twoWeeks)),
     last_week:
-      moment()
-        .day(-7)
-        .format('ll')
-        .toString() +
+      momFormat(-oneWeek)+
       ' - ' +
-      moment()
-        .day(-1)
-        .format('ll')
-        .toString(),
+      momFormat(sixDays(-oneWeek)),
     this_week:
-      moment()
-        .day(0)
-        .format('ll')
-        .toString() +
+      momFormat(zero) +
       ' - ' +
-      moment()
-        .day(6)
-        .format('ll')
-        .toString(),
+      momFormat(sixDays(zero)),
     next_week:
-      moment()
-        .day(7)
-        .format('ll')
-        .toString() +
+      momFormat(oneWeek) +
       ' - ' +
-      moment()
-        .day(13)
-        .format('ll')
-        .toString(),
+      momFormat(sixDays(oneWeek)),
     following_week:
-      moment()
-        .day(14)
-        .format('ll')
-        .toString() +
+      momFormat(twoWeeks) +
       ' - ' +
-      moment()
-        .day(20)
-        .format('ll')
-        .toString(),
+      momFormat(sixDays(twoWeeks)),
     chosen_weeks: '',
     start: '',
     end: '',
@@ -70,6 +55,8 @@ class AdminPage extends React.Component {
     this.loadUsers();
   }
 
+
+
   loadUsers = () => {
     API.getUsers()
       .then(res => {
@@ -78,6 +65,15 @@ class AdminPage extends React.Component {
       })
       .catch(err => console.log(err));
   };
+
+  loadPhoto = () => {
+  API.getUser(this.state.employeeID).then(res => {
+    this.setState({ userPhoto: res.data.photoUrl });
+    return this.state.userPhoto;
+  })
+  .catch(err => console.log(err));
+};
+
 
   handleChange = e => {
     let employ = e.target.value;
@@ -92,8 +88,12 @@ class AdminPage extends React.Component {
     this.setState({
       employeeID: e.target.options[selectedIndex].getAttribute('id'),
       chosenEmployee: employ,
+
     });
     console.log(this.state.chosenEmployee);
+
+    console.log(this.state.employeeID)
+    this.loadPhoto();
   };
 
   handleDateChange = e => {
@@ -102,6 +102,7 @@ class AdminPage extends React.Component {
       chosen_weeks: options,
     });
   };
+
 
   handleSubmit = () => {
     let employeeID = this.state.employeeID;
@@ -113,6 +114,9 @@ class AdminPage extends React.Component {
 
   render() {
     let users = this.state.users;
+    let employeeID = this.state.employeeID;
+    console.log(employeeID);
+
 
     return (
       <FormGroup>
@@ -122,8 +126,14 @@ class AdminPage extends React.Component {
             <option key={user.id} id={user.id}>
               {user.lastName},{user.firstName}
             </option>
-          ))}
-        </Input>
+                      ))}
+
+      </Input>
+      {/* {users.map(user => (
+
+      <img src={user.photoUrl} />
+      ))} */}
+
         <br />
       <WeekSelector
       two_weeks_ago = { this.state.two_weeks_ago }
@@ -139,6 +149,7 @@ class AdminPage extends React.Component {
         <AdminTimesheet
           employee={this.state.chosenEmployee}
           chosen_weeks={this.state.chosen_weeks}
+
         />
       </FormGroup>
     );

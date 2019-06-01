@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth0-variables';
+import API from '../utils/API';
 
 
 export default class Auth {
@@ -24,7 +25,7 @@ export default class Auth {
   }
 
   getProfile() {
-    console.log(this.profile);
+    console.log("Profile object from getProfile() in auth.js:", this.profile);
     return this.profile;
   }
 
@@ -61,5 +62,17 @@ export default class Auth {
     this.profile = authResult.idTokenPayload;
     // set the time that the id token will expire at
     this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    console.log("Session object from auth.js:", this);
+    console.log("Profile object from setSession(authResult) in auth.js:", this.profile);
+
+    var User = {
+      firstName: this.profile.given_name,
+      lastName: this.profile.family_name,
+      // role: this.profile["example.com"],
+      photoUrl: this.profile.picture
+    }
+
+    console.log(User);
+    API.saveUser(User);
   }
 }

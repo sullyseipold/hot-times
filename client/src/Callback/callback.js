@@ -9,7 +9,6 @@ function Callback(props) {
     
     props.auth.getProfile();
     props.history.push('/admin');
-
   });
 
   return (
