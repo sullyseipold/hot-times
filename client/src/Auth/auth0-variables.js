@@ -1,0 +1,6 @@
+export const AUTH_CONFIG = {
+    domain: 'dev-b23leygb.auth0.com',
+    clientId: 'rYthdNZybvqJy2AgfRd1e28vv6pBadU9',
+    callbackUrl: 'http://localhost:3000/callback',
+    apiUrl: 'https://dev-b23leygb.auth0.com/api/v2/'
+  }
