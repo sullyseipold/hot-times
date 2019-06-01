@@ -21,20 +21,45 @@ import TypographyPage from 'pages/TypographyPage';
 import WidgetPage from 'pages/WidgetPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
-import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import './styles/reduction.scss';
 import AdminPage from './pages/AdminPage';
+import Callback from './Callback/callback';
+import HomePage from './Homepage/Homepage';
+
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
 
-class App extends React.Component {
-  render() {
+// class App extends React.Component {
+  
+  // render(props) {
+
+  function App(props) {
+    const authenticated = props.auth.isAuthenticated();
+
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>
           <Switch>
+            <Route
+              exact
+              path="/callback"
+              render={() => <Callback auth={props.auth} />}
+            />
+            <Route
+              exact
+              path="/login-auth0"
+              render={() => (
+                <HomePage
+                  authenticated={authenticated}
+                  auth={props.auth}
+                  history={props.history}
+                />
+              )}
+            />
             <LayoutRoute
               exact
               path="/login"
@@ -62,7 +87,7 @@ class App extends React.Component {
               path="/"
               layout={MainLayout}
               component={ModalPage}
-            />
+            /> 
             <LayoutRoute
               exact
               path="/buttons"
@@ -165,30 +190,32 @@ class App extends React.Component {
       </BrowserRouter>
     );
   }
-}
 
-const query = ({ width }) => {
-  if (width < 575) {
-    return { breakpoint: 'xs' };
-  }
 
-  if (576 < width && width < 767) {
-    return { breakpoint: 'sm' };
-  }
+export default withRouter(App);
 
-  if (768 < width && width < 991) {
-    return { breakpoint: 'md' };
-  }
+// const query = ({ width }) => {
+//   if (width < 575) {
+//     return { breakpoint: 'xs' };
+//   }
 
-  if (992 < width && width < 1199) {
-    return { breakpoint: 'lg' };
-  }
+//   if (576 < width && width < 767) {
+//     return { breakpoint: 'sm' };
+//   }
 
-  if (width > 1200) {
-    return { breakpoint: 'xl' };
-  }
+//   if (768 < width && width < 991) {
+//     return { breakpoint: 'md' };
+//   }
 
-  return { breakpoint: 'xs' };
-};
+//   if (992 < width && width < 1199) {
+//     return { breakpoint: 'lg' };
+//   }
 
-export default componentQueries(query)(App);
+//   if (width > 1200) {
+//     return { breakpoint: 'xl' };
+//   }
+
+//   return { breakpoint: 'xs' };
+// };
+
+// export default componentQueries(query)(App);

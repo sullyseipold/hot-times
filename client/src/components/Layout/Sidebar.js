@@ -82,7 +82,7 @@ const pageContents = [
 
 const navItems = [
   // { to: '/', name: 'Time Cards', exact: true, Icon: MdDashboard },
-  { to: '/cards', name: 'Login', exact: false, Icon: MdWeb },
+  { to: '/login-auth0', name: 'Login', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'Employees', exact: false, Icon: MdInsertChart },
   // { to: '/widgets', name: 'wdgets', exact: false, Icon: MdWidgets },
 ];
