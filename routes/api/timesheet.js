@@ -13,4 +13,8 @@ router
   .put(timesheetController.update)
   .delete(timesheetController.remove);
 
+router
+  .route("/user/:userId/startDate/:startDate/endDate/:endDate")
+  .get(timesheetController.findByUserIdAndStartAndEndDates)
+
 module.exports = router;
