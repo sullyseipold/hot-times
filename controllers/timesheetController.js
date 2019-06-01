@@ -33,5 +33,17 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  findByUserIdAndStartAndEndDates: function(req, res) {
+    db.Timesheet
+    .findAll({
+      where:  {
+        UserId: req.params.userId,
+        startDate: req.params.startDate,
+        endDate: req.params.endDate
+      }
+    })
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   }
 };

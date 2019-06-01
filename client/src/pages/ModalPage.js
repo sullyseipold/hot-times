@@ -6,7 +6,6 @@ import {
   CardBody,
   CardHeader,
   Col,
-  Form,
   FormGroup,
   Input,
   Label,
@@ -19,83 +18,98 @@ import {
 } from 'reactstrap';
 
 import moment from "moment";
-// import "rc-time-picker/assets/index.css";
-// import InputMoment from "../../components/InputMoment/InputMoment";
 import API from '../utils/API';
 import WeekSelector from '../components/WeekSelector';
-import { verify } from 'crypto';
+import ActivitySelector from '../components/ActivitySelector';
 
+const timesheetDates = {
+  two_weeks_ago: {
+    text: moment().day(-14).format("ll").toString() + " - " + moment().day(-8).format("ll").toString(),
+    value: moment().day(-14).format("YYYY-MM-DD").toString() + "," + moment().day(-8).format("YYYY-MM-DD").toString()
+  },
+  last_week: {
+    text: moment().day(-7).format("ll").toString() + " - " + moment().day(-1).format("ll").toString(),
+    value: moment().day(-7).format("YYYY-MM-DD").toString() + "," + moment().day(-1).format("YYYY-MM-DD").toString()
+  },
+  this_week: {
+    text: moment().day(0).format("ll").toString() + " - " + moment().day(6).format("ll").toString(),
+    value: moment().day(0).format("YYYY-MM-DD").toString() + "," + moment().day(6).format("YYYY-MM-DD").toString()
+  },
+  next_week: {
+    text: moment().day(7).format("ll").toString() + " - " + moment().day(13).format("ll").toString(),
+    value: moment().day(7).format("YYYY-MM-DD").toString() + "," + moment().day(13).format("YYYY-MM-DD").toString()
+  },
+  following_week: {
+    text: moment().day(14).format("ll").toString() + " - " + moment().day(20).format("ll").toString(),
+    value: moment().day(14).format("YYYY-MM-DD").toString() + "," + moment().day(20).format("YYYY-MM-DD").toString()
+  },
+};
 
-// function convertDate(date) {
-//     return moment(date).format("YYYY-MM-DD HH:mm:ss");
-// };
+const activityTypes = [
+  {
+    text: 'Regular Hours',
+    value: 'regular'
+  },
+  {
+    text: 'Overnight Duty',
+    value: 'overnight'
+  },
+  {
+    text: 'Detail',
+    value: 'detail'
+  },
+  {
+    text: 'Overtime',
+    value: 'overtime'
+  },
+  {
+    text: 'Other',
+    value: 'other'
+  },
+  {
+    text: 'Sick Hours Used',
+    value: 'sick'
+  },
+  {
+    text: 'Holiday Hours Used',
+    value: 'holiday'
+  },
+  {
+    text: 'Vacation Hours Used',
+    value: 'vacation'
+  },
+  {
+    text: 'Comp Hours Used',
+    value: 'comp'
+  }
+]
 
 class ModalPage extends React.Component {
   state = {
+    userId: 1,
+    currentTimesheetId: '',
     modal: false,
     modal_backdrop: false,
     modal_nested_parent: false,
     modal_nested: false,
     modal_timesheet: false,
     backdrop: true,
-    two_weeks_ago:
-      moment()
-        .day(-14)
-        .format('ll')
-        .toString() +
-      ' - '  +
-      moment()
-        .day(-8)
-        .format('ll')
-        .toString(),
-    last_week:
-      moment()
-        .day(-7)
-        .format('ll')
-        .toString() +
-      ' - ' +
-      moment()
-        .day(-1)
-        .format('ll')
-        .toString(),
-    this_week:
-      moment()
-        .day(0)
-        .format('ll')
-        .toString() +
-      ' - ' +
-      moment()
-        .day(6)
-        .format('ll')
-        .toString(),
-    next_week:
-      moment()
-        .day(7)
-        .format('ll')
-        .toString() +
-      ' - ' +
-      moment()
-        .day(13)
-        .format('ll')
-        .toString(),
-    following_week:
-      moment()
-        .day(14)
-        .format('ll')
-        .toString() +
-      ' - ' +
-      moment()
-        .day(20)
-        .format('ll')
-        .toString(),
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    endTime: '',
-    chosen_weeks: '',
-    sheetEndDate: '',
-    sheetStartDate:''
+    activityTypes: activityTypes,
+    two_weeks_ago: timesheetDates.two_weeks_ago.text,
+    last_week: timesheetDates.last_week.text,
+    this_week: timesheetDates.this_week.text,
+    next_week: timesheetDates.next_week.text,
+    following_week: timesheetDates.following_week.text,
+    activityStartDate: '',
+    activityEndDate: '',
+    activityStartTime: '',
+    activityEndTime: '',
+    activityType: activityTypes[0].value,
+    chosen_weeks: timesheetDates.this_week.text,
+    sheetEndDate: timesheetDates.this_week.value.split(',')[1],
+    sheetStartDate: timesheetDates.this_week.value.split(',')[0]
   };
+
 
   toggle = modalType => () => {
     if (!modalType) {
@@ -109,43 +123,54 @@ class ModalPage extends React.Component {
     });
   };
 
-//verify that a time range is picked. Placeholder is value of first option,
-//!options does not disable a submit yet
+  // Start Time 
+  toggleModal = type => {
+    if (!type) {
+      return this.setState({
+        modal: !this.state.modal,
+      });
+    }
 
-  checkValue = e => {
-    let options = e.target.value;
-    console.log(options)
-    if (options === "placeholder" || !options  ) {
-      alert("please select a date range")
-    } 
-  };
+    this.setState({
+      [`modal_${type}`]: !this.state[`modal_${type}`],
+    });
+  }
 
-// Start Time 
   handleStartTimeChange = e => {
-    this.setState({ startTime: e.target.value });
+    this.setState({ activityStartTime: e.target.value });
+    console.log('start time = ', e.target.value);
   };
 
-//End Time
+  //End Time
   handleEndTimeChange = e => {
-    this.setState({ endTime: e.target.value });
+    this.setState({ activityEndTime: e.target.value });
+    console.log('end time = ', e.target.value);
+
   };
 
-//Start Date
+  //Start Date
   handleStartDateChange = e => {
-    this.setState({ startDate: e.target.value });
+    this.setState({ activityStartDate: e.target.value });
+    console.log('handleStartDateChange', this.state.activityStartDate);
+    console.log('handleStartTime activity type = ', this.state.activityType);
+
   };
 
-//End Date
+  //End Date
   handleEndDateChange = e => {
-    this.setState({ endDate: e.target.value });
+    this.setState({ activityEndDate: e.target.value });
+    console.log('handleEndDateChange', this.state.activityEndDate);
+
   };
 
-//Hour type (activity type)
-  handleHourTypeChange = e => {
-    this.setState({ hourType: e.target.value });
+  //Hour type (activity type)
+  handleActivityChange = e => {
+    this.setState({ activityType: e.target.value });
+    console.log('handleActivityChange', this.state.activityType);
+
   };
 
-//Timesheet Dates
+  //Timesheet Dates
   handleDateChange = e => {
     let options = e.target.value;
     this.setState({
@@ -154,47 +179,87 @@ class ModalPage extends React.Component {
     console.log(options)
   };
 
-//Set time period and parse Start and End date of time period
-  handlePayPeriodChange = e => {
+  //Set time period and parse Start and End date of time period
+  handleTimeSheetChange = e => {
     let options = e.target.value;
     let formatStr = options.split('-');
     let sheetStartDate = moment(formatStr[0]).format('YYYY-MM-DD');
     let sheetEndDate = moment(formatStr[1]).format('YYYY-MM-DD');
+    console.log('handleTimeSheetChange = ', e.target.value);
+    console.log('sheetStartDate = ', sheetStartDate);
+    console.log('sheetEndDate = ', sheetEndDate);
 
     this.setState({
       chosen_weeks: options,
       sheetEndDate: sheetEndDate,
       sheetStartDate: sheetStartDate
     });
-    
+
   };
 
-  
-//Save to database
-  handleClick = () => {
-  
-    var startDate = this.state.startDate;
-    var endDate = this.state.endDate;
-    var startTime = this.state.startTime;
-    var endTime = this.state.endTime;
-    var startDateTime = startDate + ' ' + startTime;
-    var endDateTime = endDate + ' ' + endTime;
+  handleAddTimeClick = type => {
+    console.log('handleAddTimeClick');
+    console.log('handleAddTimeClick state.sheetStartDate = ', this.state.sheetStartDate);
+    console.log('handleAddTimeClick state.sheetEndDate = ', this.state.sheetEndDate);
+
+    API.getTimeSheetByUserIdAndStartAndEndDates(this.state.userId, this.state.sheetStartDate, this.state.sheetEndDate)
+      .then(response => {
+        console.log('get timesheet response.data = ', response.data);
+        if (!response.data.length) {
+          this.createTimesheet();
+        }
+        else {
+          this.setState({
+            currentTimesheetId: response.data[0].id
+          });
+          console.log('get timesheet id = ', this.state.currentTimesheetId);
+        }
+      });
+
+    this.toggleModal(type);
+  }
+
+  createTimesheet = () => {
+    API.createTimesheet({
+      UserId: this.state.userId,
+      startDate: this.state.sheetStartDate,
+      endDate: this.state.sheetEndDate
+    })
+      .then(response => {
+        console.log('createTimesheet response = ', response);
+        this.setState({
+          currentTimesheetId: response.data.id
+        });
+        console.log('create timesheet id = ', this.state.currentTimesheetId);
+      });
+  }
+
+
+  //Save to database
+  handleSaveTimeClick = type => {
+
+    var startDate = this.state.activityStartDate;
+    var endDate = this.state.activityEndDate;
+    var startTime = this.state.activityStartTime;
+    var endTime = this.state.activityEndTime;
 
     //input validation for time entry
-
-    if (moment(startDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate) && 
-    moment(endDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate) && 
-    (moment(startDate).isBefore(endDate)))
-    {
+    if (moment(startDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate, null, '[]') &&
+      moment(endDate).isBetween(this.state.sheetStartDate, this.state.sheetEndDate, null, '[]') &&
+      (moment(startDate).isSameOrBefore(endDate))) {
       API.saveActivity({
-        startDateTime: startDateTime,
-        endDateTime: endDateTime,
+        TimesheetId: this.state.currentTimesheetId,
+        startDate: startDate,
+        endDate: endDate,
+        startTime: startTime,
+        endTime: endTime,
+        activityType: this.state.activityType
       });
+      this.toggleModal(type);
 
     } else {
       alert(`please choose a date between ${this.state.chosen_weeks}, and make sure start date is before end date`);
     }
-   
   };
 
 
@@ -202,25 +267,24 @@ class ModalPage extends React.Component {
   render() {
     return (
       <Page title="(ModalPage)Timesheets">
-        
+
         <Row>
           <Col md="12" sm="12" xs="12">
             <Card>
               <CardHeader />
               <CardBody>
                 <WeekSelector
-                two_weeks_ago = { this.state.two_weeks_ago }
-                last_week = { this.state.last_week }
-                this_week = { this.state.this_week } 
-                next_week = { this.state.next_week }
-                following_week = { this.state.following_week }
-                handleDateChange = { this.handlePayPeriodChange }/>
+                  two_weeks_ago={this.two_weeks_ago}
+                  last_week={this.state.last_week}
+                  this_week={this.state.this_week}
+                  next_week={this.state.next_week}
+                  following_week={this.state.following_week}
+                  handleTimeSheetChange={this.handleTimeSheetChange} />
                 <Button
                   color="dark"
-                  onClick={this.toggle('nested_parent')}
-                  onSubmit={this.checkValue}
+                  onClick={() => this.handleAddTimeClick('nested_parent')}
                 >
-                  Add Shift
+                  Add Time
                 </Button>{' '}
                 <Button color="danger" onClick={this.toggle('timesheet')}>
                   View Timesheet
@@ -233,7 +297,6 @@ class ModalPage extends React.Component {
                   <ModalHeader toggle={this.toggle('nested_parent')}>
                     Enter Time Worked from {this.state.chosen_weeks}
                   </ModalHeader>
-
                   <ModalBody>
                     <Card>
                       <CardBody>
@@ -241,8 +304,8 @@ class ModalPage extends React.Component {
                           <Label for="startDate">Start Date</Label>
                           <Input
                             type="date"
-                            name="startDate"
-                            placeholder="Start Date"
+                            name="date"
+                            placeholder="date placeholder"
                             defaultValue={new Date()}
                             onChange={this.handleStartDateChange}
                           />
@@ -251,18 +314,17 @@ class ModalPage extends React.Component {
                           <Label for="startTime">Start Time</Label>
                           <Input
                             type="time"
-                            name="startTime"
-                            placeholder="Start Time"
+                            name="time"
+                            placeholder="time placeholder"
                             onChange={this.handleStartTimeChange}
                           />
                         </FormGroup>
-
                         <FormGroup>
                           <Label for="endDate">End Date</Label>
                           <Input
                             type="date"
-                            name="endDate"
-                            placeholder="End Date"
+                            name="date"
+                            placeholder="date placeholder"
                             onChange={this.handleEndDateChange}
                           />
                         </FormGroup>
@@ -270,47 +332,26 @@ class ModalPage extends React.Component {
                           <Label for="endTime">End Time</Label>
                           <Input
                             type="time"
-                            name="endTime"
-                            placeholder="End Time"
+                            name="time"
+                            placeholder="time placeholder"
                             onChange={this.handleEndTimeChange}
                           />
                         </FormGroup>
-
-                        <Form>
-                          <FormGroup>
-                            <Label for="hourType">Select Hour Type</Label>
-                            <Input
-                              type="select"
-                              name="hourType"
-                              onChange={this.handleHourTypeChange}
-                            >
-                              <option type="text" name="Regular Hours">
-                                Regular Hours
-                              </option>
-                              <option>Overnight Duty</option>
-                              <option>Detail</option>
-                              <option>OT</option>
-                              <option>Other</option>
-                              <option>Sick Hours Used </option>
-                              <option>Comp Hours Earned</option>
-                              <option>Holiday Hours</option>
-                              <option>Vacation Hours Used</option>
-                              <option>Comp Hours Used</option>
-                            </Input>
-                          </FormGroup>
-                        </Form>
+                        <ActivitySelector
+                          activityTypes={this.state.activityTypes}
+                          handleActivityChange={this.handleActivityChange}
+                        />
                       </CardBody>
                     </Card>
                     <br />
-                   
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="success" onClick={this.handleClick}>
+                    <Button color="success" onClick={() => this.handleSaveTimeClick('nested_parent')}>
                       Save Time Entry
                     </Button>{' '}
                     <Button
                       color="secondary"
-                      onClick={this.toggle('nested_parent')}
+                      onClick={() => this.toggleModal('nested_parent')}
                     >
                       Cancel
                     </Button>

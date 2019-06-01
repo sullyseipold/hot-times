@@ -40,5 +40,19 @@ export default {
         url:"http://localhost:3001/api/activity",
         data: activity
       });
+    },
+
+    getTimeSheetByUserIdAndStartAndEndDates: function(userId, startDate, endDate) {
+      return axios.get(`http://localhost:3001/api/timesheet/user/${userId}/startDate/${startDate}/endDate/${endDate}`);
+
+    },
+
+    createTimesheet: function(timesheet) {
+      return axios({
+        method: 'post',
+        url:  'http://localhost:3001/api/timesheet',
+        data: timesheet
+
+      });
     }
 };

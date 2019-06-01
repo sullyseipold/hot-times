@@ -10,13 +10,13 @@ class WeekSelector extends React.Component {
             this_week,
             next_week,
             following_week,
-            handleDateChange
+            handleTimeSheetChange
              } = this.props;
         return (
     <FormGroup>
-     <Label for="exampleSelect">Select Week</Label>
-        <Input type="select" onChange={handleDateChange} name="select">
-          <option value="placeholder">Click to select your timesheet</option>
+     <Label for="exampleSelect">Select A Timesheet</Label>
+        <Input type="select" onChange={handleTimeSheetChange} name="select">
+          <option value={this_week}>{this_week}</option>
           <option value={two_weeks_ago}>{two_weeks_ago}</option>
           <option value={last_week}>{last_week}</option>
           <option value={this_week}>{this_week}</option>
