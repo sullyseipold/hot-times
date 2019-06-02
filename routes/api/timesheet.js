@@ -15,6 +15,10 @@ router
 
 router
   .route("/user/:userId/startDate/:startDate/endDate/:endDate")
-  .get(timesheetController.findByUserIdAndStartAndEndDates)
+  .get(timesheetController.findByUserIdAndStartAndEndDates);
+
+router
+  .route("/user/:userId")
+  .get(timesheetController.getTimesheetsByUserId)
 
 module.exports = router;

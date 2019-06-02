@@ -63,6 +63,7 @@ const navComponents = [
   // { to: '/alerts', name: 'alerts', exact: false, Icon: MdNotificationsActive },
   // { to: '/progress', name: 'progress', exact: false, Icon: MdBrush },
   { to: '/modals', name: 'Time Sheets', exact: false, Icon: MdViewDay },
+  { to: '/admin', name: 'Admin', exact: false, Icon: MdViewDay },
 ];
 
 const navContents = [

@@ -13,18 +13,20 @@ import {
     Table,
     Row,
   } from 'reactstrap';
+  import moment from 'moment';
+
 
   class AdminTimesheet extends React.Component {
     render() {
        
         const {
          employee,
-         chosen_weeks
+         selectedTimesheet
           } = this.props;
 
       return (
           <Card className="mb-3">
-            <CardHeader>{employee} - {chosen_weeks}</CardHeader>
+            <CardHeader>{employee} - {moment(selectedTimesheet.split(',')[0]).format('ll')} - {moment(selectedTimesheet.split(',')[1]).format('ll')}</CardHeader>
             <CardBody>
               <Row>
                 <Col>

@@ -4,6 +4,8 @@ import { withRouter } from 'react-router';
 function Homepage(props) {
     console.log(props)
     const { authenticated } = props;
+
+    console.log('homepage authenticated = ', authenticated);
   
     const logout = () => {
       props.auth.logout();
