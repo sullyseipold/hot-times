@@ -5,9 +5,11 @@ import { Button, FormGroup, Label, Input } from 'reactstrap';
 import AdminTimesheet from '../components/AdminTimesheet';
 import { POINT_CONVERSION_COMPRESSED } from 'constants';
 import WeekSelector from '../components/WeekSelector';
+import Page from '../components/Page';
 
-function momFormat(int){
-return moment().day(int).format('ll').toString();
+
+function momFormat(int) {
+  return moment().day(int).format('ll').toString();
 };
 
 const twoWeeks = 14;
@@ -16,14 +18,14 @@ const zero = 0;
 
 
 
-function sixDays(start){
+function sixDays(start) {
   return (start + 6);
 }
 
 class AdminPage extends React.Component {
   state = {
     users: [],
-    chosenEmployee: '',
+    selectedEmployee: '',
     employeeID: 0,
     two_weeks_ago:
 
@@ -31,7 +33,7 @@ class AdminPage extends React.Component {
       ' - ' +
       momFormat(sixDays(-twoWeeks)),
     last_week:
-      momFormat(-oneWeek)+
+      momFormat(-oneWeek) +
       ' - ' +
       momFormat(sixDays(-oneWeek)),
     this_week:
@@ -46,70 +48,62 @@ class AdminPage extends React.Component {
       momFormat(twoWeeks) +
       ' - ' +
       momFormat(sixDays(twoWeeks)),
-    chosen_weeks: '',
+    selectedTimesheet: '',
     start: '',
     end: '',
+    userTimesheets: []
   };
 
   componentDidMount() {
     this.loadUsers();
+
   }
 
-
-
   loadUsers = () => {
+    console.log('inside get users');
     API.getUsers()
       .then(res => {
-        this.setState({ users: res.data });
+        this.setState({ users: res.data, selectedEmployee: `${res.data[0].lastName}, ${res.data[0].firstName}` });
         console.log(this.state.users);
+        this.loadUserTimeSheets(res.data[0].id);
       })
       .catch(err => console.log(err));
   };
 
+  loadUserTimeSheets = userId => {
+    API.getTimesheetsByUserId(userId)
+      .then(res => {
+        this.setState({ userTimesheets: res.data });
+      })
+      .catch(err => console.log(err));
+  }
+
   loadPhoto = () => {
-  API.getUser(this.state.employeeID).then(res => {
-    this.setState({ userPhoto: res.data.photoUrl });
-    return this.state.userPhoto;
-  })
-  .catch(err => console.log(err));
-};
-
-
-  handleChange = e => {
-    let employ = e.target.value;
-    let options = e.target.options;
-    const selectedIndex = e.target.options.selectedIndex;
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    this.setState({
-      employeeID: e.target.options[selectedIndex].getAttribute('id'),
-      chosenEmployee: employ,
-
-    });
-    console.log(this.state.chosenEmployee);
-
-    console.log(this.state.employeeID)
-    this.loadPhoto();
+    API.getUser(this.state.employeeID).then(res => {
+      this.setState({ userPhoto: res.data.photoUrl });
+      return this.state.userPhoto;
+    })
+      .catch(err => console.log(err));
   };
 
-  handleDateChange = e => {
-    let options = e.target.value;
+handleEmployeeChange = e => {
+  const selectedIndex = e.target.options.selectedIndex;
+  const id = e.target.options[selectedIndex].getAttribute('data-id');
+
+  this.setState({
+    selectedEmployee: e.target.value,
+    employeeID: id
+  });
+
+  this.loadUserTimeSheets(id);
+}
+
+  handleTimesheetChange = e => {
     this.setState({
-      chosen_weeks: options,
+      selectedTimesheet: e.target.value,
     });
-  };
 
-
-  handleSubmit = () => {
-    let employeeID = this.state.employeeID;
-    let str = this.state.chosen_weeks.toString();
-    let formatStr = str.split('-');
-    let startDate = moment(formatStr[0]).format('YYYY-MM-DD');
-    console.log(startDate, employeeID);
+    console.log('handle data change ', e.target.value);
   };
 
   render() {
@@ -119,39 +113,34 @@ class AdminPage extends React.Component {
 
 
     return (
-      <FormGroup>
-        <Label>Select Employee</Label>
-        <Input type="select" name="select" onChange={this.handleChange} >
-          {users.map(user => (
-            <option key={user.id} id={user.id}>
-              {user.lastName},{user.firstName}
-            </option>
-                      ))}
-
-      </Input>
-      {/* {users.map(user => (
-
-      <img src={user.photoUrl} />
-      ))} */}
-
-        <br />
-      <WeekSelector
-      two_weeks_ago = { this.state.two_weeks_ago }
-      last_week = { this.state.last_week }
-      this_week = { this.state.this_week } 
-      next_week = { this.state.next_week }
-      following_week = { this.state.following_week }
-      handleDateChange = { this.handleDateChange }
-      />
-        <br />
-        <Button onClick={this.handleSubmit}>View timesheet</Button>
-
-        <AdminTimesheet
-          employee={this.state.chosenEmployee}
-          chosen_weeks={this.state.chosen_weeks}
-
-        />
-      </FormGroup>
+      <Page title="Administration">
+        <FormGroup>
+          <Label>Select Employee</Label>
+          <Input type="select" name="select" onChange={this.handleEmployeeChange} >
+            {users.map(user => (
+              <option key={user.id} data-id={user.id}>
+                {user.lastName},&nbsp;&nbsp;{user.firstName}
+              </option>
+            ))}
+          </Input>
+          <br />
+          <FormGroup>
+            <Label for="exampleSelect">Select A Timesheet</Label>
+            <Input type="select" onChange={this.handleTimesheetChange} name="select">
+              {this.state.userTimesheets.map((timesheet, index) => <option key={index}
+              value={`${timesheet.startDate},${timesheet.endDate}`}>
+               {moment(timesheet.startDate).format('ll')} - {moment(timesheet.endDate).format('ll')}
+              </option> )}
+            </Input>
+          </FormGroup>
+          <br />
+          <Button onClick={this.handleSubmit}>View timesheet</Button>
+          <AdminTimesheet
+            employee={this.state.selectedEmployee}
+            selectedTimesheet={this.state.selectedTimesheet}
+          />
+        </FormGroup>
+      </Page>
     );
   }
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   // Gets all users
   getUsers: function() {
-    return axios.get("/api/user");
+    return axios.get("http://localhost:3001/api/user");
   },
   // Gets the user with the given id
   getUser: function(id) {
@@ -14,7 +14,7 @@ export default {
     return axios.delete("/api/user/" + id);
   },
 
-  getTimesheet: function(UserId){
+  getTimesheets: function(UserId){
     return axios.get("/api/timesheet/" + UserId)
   },
 
@@ -44,7 +44,10 @@ export default {
 
     getTimeSheetByUserIdAndStartAndEndDates: function(userId, startDate, endDate) {
       return axios.get(`http://localhost:3001/api/timesheet/user/${userId}/startDate/${startDate}/endDate/${endDate}`);
+    },
 
+    getTimesheetsByUserId: function(userId) {
+      return axios.get(`http://localhost:3001/api/timesheet/user/${userId}`);
     },
 
     createTimesheet: function(timesheet) {

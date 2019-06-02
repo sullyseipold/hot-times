@@ -45,5 +45,16 @@ module.exports = {
     })
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
+  },
+
+  getTimesheetsByUserId: function(req, res) {
+    db.Timesheet
+    .findAll({
+      where:  {
+        UserId: req.params.userId,
+      }
+    })
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   }
 };
