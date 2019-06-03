@@ -1,0 +1,22 @@
+body{
+    background-image: url('../assets/img/bg/background_1920-7.png');
+    text-align: center;
+    padding: 10%;
+    color: brown;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* .btn{
+    background-color: brown;
+} */
+
+.op {
+    background-color: #FFF6F2;
+    /* opacity: 0.8; */
+    padding: 10%;
+}
+
+/* .op:hover {
+    opacity: 1.0;
+} */
