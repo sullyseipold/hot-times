@@ -1,49 +1,49 @@
-import Avatar from 'components/Avatar';
-import { UserCard } from 'components/Card';
-import Notifications from 'components/Notifications';
-import SearchInput from 'components/SearchInput';
-import { notificationsData } from 'demos/header';
-import withBadge from 'hocs/withBadge';
+// import Avatar from 'components/Avatar';
+// import { UserCard } from 'components/Card';
+// import Notifications from 'components/Notifications';
+// import SearchInput from 'components/SearchInput';
+// import { notificationsData } from 'demos/header';
+// import withBadge from 'hocs/withBadge';
 import React from 'react';
 import {
   MdClearAll,
-  MdExitToApp,
-  MdHelp,
-  MdInsertChart,
-  MdMessage,
-  MdNotificationsActive,
-  MdNotificationsNone,
-  MdPersonPin,
-  MdSettingsApplications,
+  // MdExitToApp,
+  // MdHelp,
+  // MdInsertChart,
+  // MdMessage,
+  // MdNotificationsActive,
+  // MdNotificationsNone,
+  // MdPersonPin,
+  // MdSettingsApplications,
 } from 'react-icons/md';
 import {
   Button,
-  ListGroup,
-  ListGroupItem,
+  // ListGroup,
+  // ListGroupItem,
   // NavbarToggler,
   Nav,
   Navbar,
-  NavItem,
-  NavLink,
-  Popover,
-  PopoverBody,
+  // NavItem,
+  // NavLink,
+  // Popover,
+  // PopoverBody,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
 
 const bem = bn.create('header');
 
-const MdNotificationsActiveWithBadge = withBadge({
-  size: 'md',
-  color: 'dark',
-  style: {
-    top: -10,
-    right: -10,
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  children: <small>5</small>,
-})(MdNotificationsActive);
+// const MdNotificationsActiveWithBadge = withBadge({
+//   size: 'md',
+//   color: 'dark',
+//   style: {
+//     top: -10,
+//     right: -10,
+//     display: 'inline-flex',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   children: <small>5</small>,
+// })(MdNotificationsActive);
 
 class Header extends React.Component {
   state = {
@@ -76,7 +76,7 @@ class Header extends React.Component {
   };
 
   render() {
-    const { isNotificationConfirmed } = this.state;
+    // const { isNotificationConfirmed } = this.state;
 
     return (
       <Navbar light expand className={bem.b('bg-black')}>

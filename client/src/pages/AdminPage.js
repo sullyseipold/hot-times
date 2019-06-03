@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import API from '../utils/API';
-import { Button, FormGroup, Label, Input } from 'reactstrap';
+import { Button, FormGroup, Label, Input, Card, CardHeader, CardBody } from 'reactstrap';
 import AdminTimesheet from '../components/AdminTimesheet';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
-import WeekSelector from '../components/WeekSelector';
 import Page from '../components/Page';
+import WeekSelector from '../components/WeekSelector';
+import { saveAs } from 'file-saver';
+
 
 function momFormat(int) {
   return moment()
@@ -22,6 +23,31 @@ function sixDays(start) {
   return start + 6;
 }
 
+
+
+const payPeriodDates = [
+  {
+    text: moment().day(-14).format("ll").toString() + " - " + moment().day(-8).format("ll").toString(),
+    value: moment().day(-14).format("YYYY-MM-DD").toString() + "," + moment().day(-8).format("YYYY-MM-DD").toString()
+  },
+  {
+    text: moment().day(-7).format("ll").toString() + " - " + moment().day(-1).format("ll").toString(),
+    value: moment().day(-7).format("YYYY-MM-DD").toString() + "," + moment().day(-1).format("YYYY-MM-DD").toString()
+  },
+  {
+    text: moment().day(0).format("ll").toString() + " - " + moment().day(6).format("ll").toString(),
+    value: moment().day(0).format("YYYY-MM-DD").toString() + "," + moment().day(6).format("YYYY-MM-DD").toString()
+  },
+  {
+    text: moment().day(7).format("ll").toString() + " - " + moment().day(13).format("ll").toString(),
+    value: moment().day(7).format("YYYY-MM-DD").toString() + "," + moment().day(13).format("YYYY-MM-DD").toString()
+  },
+  {
+    text: moment().day(14).format("ll").toString() + " - " + moment().day(20).format("ll").toString(),
+    value: moment().day(14).format("YYYY-MM-DD").toString() + "," + moment().day(20).format("YYYY-MM-DD").toString()
+  }
+];
+
 class AdminPage extends React.Component {
   state = {
     users: [],
@@ -32,6 +58,7 @@ class AdminPage extends React.Component {
     this_week: momFormat(zero) + ' - ' + momFormat(sixDays(zero)),
     next_week: momFormat(oneWeek) + ' - ' + momFormat(sixDays(oneWeek)),
     following_week: momFormat(twoWeeks) + ' - ' + momFormat(sixDays(twoWeeks)),
+    selectedPayPeriod:  payPeriodDates[0].value,
     selectedTimesheet: '',
     start: '',
     end: '',
@@ -98,9 +125,11 @@ class AdminPage extends React.Component {
 
     this.setState({
       selectedEmployee: e.target.value,
-      employeeID: id,
+      employeeID: id
     });
-  };
+
+    this.loadUserTimeSheets(id);
+  }
 
   handleTimesheetChange = e => {
     this.setState({
@@ -131,6 +160,36 @@ class AdminPage extends React.Component {
     })
     
  };
+  handlePayPeriodChangeChange = e => {
+    this.setState({
+      selectedPayPeriod: e.target.value,
+    });
+
+    console.log('handle pay period change ', e.target.value);
+  };
+
+  handleGetReport = () => {
+    console.log('handle get report');
+    let startDate = this.state.selectedPayPeriod.split(',')[0];
+    let endDate = this.state.selectedPayPeriod.split(',')[1];
+
+    console.log('get report start date = ', startDate);
+    console.log('get report end date = ', endDate);
+
+
+    API.getPayPeriodReport(startDate, endDate)
+      .then(res => {
+        var byteCharacters = atob(res.data);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        saveAs(blob, `report_${startDate}_${endDate}`);
+      })
+  };
 
   render() {
     let users = this.state.users;
@@ -139,6 +198,25 @@ class AdminPage extends React.Component {
 
     return (
       <Page title="Administration">
+        <Card>
+          <CardHeader>Generate Pay Period Report</CardHeader>
+          <CardBody>
+            <FormGroup>
+              <Label for="exampleSelect">Select A Pay Period</Label>
+              <Input type="select" onChange={this.handlePayPeriodChangeChange} name="select">
+                {payPeriodDates.map((payPeriod, index) => <option key={index}
+                  value={payPeriod.value}>
+                  {payPeriod.text}
+                </option>)}
+              </Input>
+            </FormGroup>
+            <br />
+            <Button color="danger" onClick={this.handleGetReport}>
+              Get Pay Period Report
+                </Button>
+          </CardBody>
+        </Card>
+        <br /><br />
         <FormGroup>
           <Label>Select Employee</Label>
           <Input
@@ -174,16 +252,11 @@ class AdminPage extends React.Component {
             activities={this.state.activities}
           />
         </FormGroup>
+
+
       </Page>
     );
   }
 }
 
 export default AdminPage;
-
-  {/* <Input type="select" onChange={this.handleTimesheetChange} name="select">
-              {this.state.userTimesheets.map((timesheet, index) => <option key={index}
-              value={`${timesheet.startDate},${timesheet.endDate}`}>
-               {moment(timesheet.startDate).format('ll')} - {moment(timesheet.endDate).format('ll')}
-              </option> )}
-            </Input> */}
