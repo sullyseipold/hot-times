@@ -23,6 +23,8 @@ const getBasename = () => {
   function App(props) {
     const authenticated = props.auth.isAuthenticated();
 
+    console.log('app authenticated = ', authenticated);
+
     return (
       <BrowserRouter basename={getBasename()}>
         <GAListener>

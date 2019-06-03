@@ -8,24 +8,27 @@ import { withRouter } from 'react-router';
 import './homepage.css';
 
 function Homepage(props) {
-  console.log(props);
-  const { authenticated } = props;
+    console.log(props)
+    const { authenticated } = props;
 
-  const logout = () => {
-    props.auth.logout();
-    props.history.push('/');
-  };
-
-  // const background = {
-  //   backgroundImage: `url("${bgImage}")`,
-  //   backgroundSize: 'cover',
-  //   backgroundRepeat: 'no-repeat',
-  // };
-
-  // const bem = bn.create('homepage');
-
-  if (authenticated) {
-    const { name } = props.auth.getProfile();
+    console.log('homepage authenticated = ', authenticated);
+  
+    const logout = () => {
+      props.auth.logout();
+      props.history.push('/');
+    };
+  
+  
+    if (authenticated) {
+        const { name } = props.auth.getProfile();
+        return (
+          <div>
+            <h1>Howdy! Glad to see you back, {name}.</h1>
+            <button onClick={logout}>Log out</button>
+          </div>
+        );
+      }
+  
     return (
       <div>
         <h1>Howdy! Glad to see you back, {name}.</h1>
