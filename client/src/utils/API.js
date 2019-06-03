@@ -3,7 +3,7 @@ import axios from 'axios';
 export default {
   // Gets all users
   getUsers: function() {
-    return axios.get('http://localhost:3001/api/user');
+    return axios.get('/api/user');
   },
   // Gets the user with the given id
   getUser: function(id) {
@@ -22,7 +22,7 @@ export default {
   saveUser: function(user) {
     return axios({
       method: 'post',
-      baseURL: 'http://localhost:3001/api/user',
+      baseURL: '/api/user',
       data: user,
     });
   },
@@ -31,14 +31,14 @@ export default {
   saveActivity: function(activity) {
     return axios({
       method: 'post',
-      url: 'http://localhost:3001/api/activity',
+      url: '/api/activity',
       data: activity,
     });
   },
 
   getActivitiesByTimesheetID: function(timesheetId) {
     return axios.get(
-      `http://localhost:3001/api/activity/?TimesheetId/${timesheetId}`,
+      `/api/activity/?TimesheetId/${timesheetId}`,
     );
   },
 
@@ -48,23 +48,23 @@ export default {
     endDate,
   ) {
     return axios.get(
-      `http://localhost:3001/api/timesheet/user/${userId}/startDate/${startDate}/endDate/${endDate}`,
+      `/api/timesheet/user/${userId}/startDate/${startDate}/endDate/${endDate}`,
     );
   },
 
   getTimesheetsByUserId: function(userId) {
-    return axios.get(`http://localhost:3001/api/timesheet/user/${userId}`);
+    return axios.get(`/api/timesheet/user/${userId}`);
   },
 
   createTimesheet: function(timesheet) {
     return axios({
       method: 'post',
-      url: 'http://localhost:3001/api/timesheet',
+      url: '/api/timesheet',
       data: timesheet,
     });
   },
    
     getPayPeriodReport: function(startDate, endDate) {
-      return axios.get(`http://localhost:3001/api/reports/payPeriod/startDate/${startDate}/endDate/${endDate}`)
+      return axios.get(`/api/reports/payPeriod/startDate/${startDate}/endDate/${endDate}`)
     }
 };
