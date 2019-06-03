@@ -8,7 +8,7 @@ function Callback(props) {
   props.auth.handleAuthentication().then(() => {
     
     props.auth.getProfile();
-    props.history.push('/admin');
+    props.history.push('/profile');
   });
 
   return (

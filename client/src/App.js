@@ -1,41 +1,24 @@
 import { STATE_LOGIN, STATE_SIGNUP } from 'components/AuthForm';
 import GAListener from 'components/GAListener';
 import { EmptyLayout, LayoutRoute, MainLayout } from 'components/Layout';
-import AlertPage from 'pages/AlertPage';
 import AuthModalPage from 'pages/AuthModalPage';
 import AuthPage from 'pages/AuthPage';
-import BadgePage from 'pages/BadgePage';
-import ButtonGroupPage from 'pages/ButtonGroupPage';
-import ButtonPage from 'pages/ButtonPage';
-import CardPage from 'pages/CardPage';
-import ChartPage from 'pages/ChartPage';
 // pages
-import DashboardPage from 'pages/DashboardPage';
-import DropdownPage from 'pages/DropdownPage';
-import FormPage from 'pages/FormPage';
-import InputGroupPage from 'pages/InputGroupPage';
-import ModalPage from 'pages/ModalPage';
-import ProgressPage from 'pages/ProgressPage';
-import TablePage from 'pages/TablePage';
-import TypographyPage from 'pages/TypographyPage';
-import WidgetPage from 'pages/WidgetPage';
 import React from 'react';
-import componentQueries from 'react-component-queries';
+// import componentQueries from 'react-component-queries';
 import { withRouter } from 'react-router';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import './styles/reduction.scss';
+import ModalPage from './pages/ModalPage';
 import AdminPage from './pages/AdminPage';
 import Callback from './Callback/callback';
 import HomePage from './Homepage/Homepage';
+import Profile from './Profile/Profile';
 
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
-
-// class App extends React.Component {
-  
-  // render(props) {
 
   function App(props) {
     const authenticated = props.auth.isAuthenticated();
@@ -53,9 +36,21 @@ const getBasename = () => {
             />
             <Route
               exact
-              path="/login-auth0"
+              path="/"
               render={() => (
                 <HomePage
+                  authenticated={authenticated}
+                  auth={props.auth}
+                  history={props.history}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/profile"
+
+              render={() => (
+                <Profile
                   authenticated={authenticated}
                   auth={props.auth}
                   history={props.history}
@@ -86,94 +81,10 @@ const getBasename = () => {
             />
             <LayoutRoute
               exact
-              path="/"
+              path="/modalpage"
               layout={MainLayout}
               component={ModalPage}
             /> 
-            <LayoutRoute
-              exact
-              path="/buttons"
-              layout={MainLayout}
-              component={ButtonPage}
-            />
-            <LayoutRoute
-              exact
-              path="/cards"
-              layout={MainLayout}
-              component={CardPage}
-            />
-            <LayoutRoute
-              exact
-              path="/widgets"
-              layout={MainLayout}
-              component={WidgetPage}
-            />
-            <LayoutRoute
-              exact
-              path="/typography"
-              layout={MainLayout}
-              component={TypographyPage}
-            />
-            <LayoutRoute
-              exact
-              path="/alerts"
-              layout={MainLayout}
-              component={AlertPage}
-            />
-            <LayoutRoute
-              exact
-              path="/tables"
-              layout={MainLayout}
-              component={TablePage}
-            />
-            <LayoutRoute
-              exact
-              path="/badges"
-              layout={MainLayout}
-              component={BadgePage}
-            />
-            <LayoutRoute
-              exact
-              path="/button-groups"
-              layout={MainLayout}
-              component={ButtonGroupPage}
-            />
-            <LayoutRoute
-              exact
-              path="/dropdowns"
-              layout={MainLayout}
-              component={DropdownPage}
-            />
-            <LayoutRoute
-              exact
-              path="/progress"
-              layout={MainLayout}
-              component={ProgressPage}
-            />
-            <LayoutRoute
-              exact
-              path="/modals"
-              layout={MainLayout}
-              component={ModalPage}
-            />
-            <LayoutRoute
-              exact
-              path="/forms"
-              layout={MainLayout}
-              component={FormPage}
-            />
-            <LayoutRoute
-              exact
-              path="/input-groups"
-              layout={MainLayout}
-              component={InputGroupPage}
-            />
-            <LayoutRoute
-              exact
-              path="/charts"
-              layout={MainLayout}
-              component={ChartPage}
-            />
             <LayoutRoute
               exact
               path="/register"
@@ -184,8 +95,11 @@ const getBasename = () => {
               exact
               path="/admin"
               layout={MainLayout}
-              component={AdminPage}
-            />
+              component={props => (
+                <AdminPage {...props} authenticated={true}
+                />
+              )}
+              />
             <Redirect to="/" />
           </Switch>
         </GAListener>

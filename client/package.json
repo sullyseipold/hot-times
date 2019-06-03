@@ -12,6 +12,7 @@
     "faker": "^4.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
+    "react-bootstrap": "^1.0.0-beta.9",
     "react-chartjs-2": "^2.7.4",
     "react-component-queries": "^2.3.0",
     "react-d3-map": "^0.8.3",
