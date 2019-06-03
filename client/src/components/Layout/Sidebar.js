@@ -2,29 +2,29 @@ import logo200Image from 'assets/img/logo/logo_200.png';
 import sidebarBgImage from 'assets/img/sidebar/sidebar-4.jpg';
 import SourceLink from 'components/SourceLink';
 import React from 'react';
-import { FaGithub } from 'react-icons/fa';
+// import { FaGithub } from 'react-icons/fa';
 import {
-  MdAccountCircle,
-  MdArrowDropDownCircle,
-  MdBorderAll,
-  MdBrush,
-  MdChromeReaderMode,
-  MdDashboard,
-  MdExtension,
-  MdGroupWork,
+  // MdAccountCircle,
+  // MdArrowDropDownCircle,
+  // MdBorderAll,
+  // MdBrush,
+  // MdChromeReaderMode,
+  // MdDashboard,
+  // MdExtension,
+  // MdGroupWork,
   MdInsertChart,
-  MdKeyboardArrowDown,
-  MdNotificationsActive,
-  MdPages,
-  MdRadioButtonChecked,
-  MdSend,
-  MdStar,
-  MdTextFields,
+  // MdKeyboardArrowDown,
+  // MdNotificationsActive,
+  // MdPages,
+  // MdRadioButtonChecked,
+  // MdSend,
+  // MdStar,
+  // MdTextFields,
   MdViewCarousel,
   MdViewDay,
-  MdViewList,
+  // MdViewList,
   MdWeb,
-  MdWidgets,
+  // MdWidgets,
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
@@ -65,19 +65,19 @@ const navComponents = [
   { to: '/modalpage', name: 'Time Sheets', exact: true, Icon: MdViewDay },
 ];
 
-const navContents = [
-  { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
-  { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
-];
+// const navContents = [
+//   { to: '/typography', name: 'typography', exact: false, Icon: MdTextFields },
+//   { to: '/tables', name: 'tables', exact: false, Icon: MdBorderAll },
+// ];
 
 const pageContents = [
   // { to: '/login', name: 'login / signup', exact: false, Icon: MdAccountCircle },
-  {
-    to: '/login-modal',
-    name: 'login modal',
-    exact: false,
-    Icon: MdViewCarousel,
-  },
+  // {
+  //   to: '/login-modal',
+  //   name: 'login modal',
+  //   exact: false,
+  //   Icon: MdViewCarousel,
+  // },
 ];
 
 const navItems = [

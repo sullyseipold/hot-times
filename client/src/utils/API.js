@@ -26,10 +26,7 @@ export default {
       data: user,
     });
   },
-  // Deletes the user with the given id
-  // deleteUser: function(id) {
-  //   return axios.delete("/api/user/" + id);
-  // },
+  
   // Saves a user to the database
   saveActivity: function(activity) {
     return axios({
@@ -66,4 +63,8 @@ export default {
       data: timesheet,
     });
   },
+   
+    getPayPeriodReport: function(startDate, endDate) {
+      return axios.get(`http://localhost:3001/api/reports/payPeriod/startDate/${startDate}/endDate/${endDate}`)
+    }
 };

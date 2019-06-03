@@ -5,7 +5,7 @@ import AuthModalPage from 'pages/AuthModalPage';
 import AuthPage from 'pages/AuthPage';
 // pages
 import React from 'react';
-import componentQueries from 'react-component-queries';
+// import componentQueries from 'react-component-queries';
 import { withRouter } from 'react-router';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import './styles/reduction.scss';

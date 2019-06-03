@@ -24,6 +24,7 @@
     "bootstrap": "^4.3.1",
     "cors": "^2.8.5",
     "express": "^4.16.3",
+    "file-saver": "^2.0.2",
     "if-env": "^1.0.4",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
@@ -38,6 +39,7 @@
     "reactstrap": "^8.0.0",
     "save": "^2.4.0",
     "sequelize": "^5.8.6",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "xlsx": "^0.14.3"
   }
 }

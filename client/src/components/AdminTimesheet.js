@@ -1,22 +1,13 @@
-import React, { Component }  from 'react';
+import React from 'react';
 import {
-    Button,
     Card,
     CardBody,
     CardHeader,
     Col,
-    Form,
-    FormFeedback,
-    FormGroup,
-    FormText,
-    Input,
     Table,
     Row,
   } from 'reactstrap';
   import moment from 'moment';
-import API from '../utils/API';
-
-
 
   class AdminTimesheet extends React.Component {
     render() {
