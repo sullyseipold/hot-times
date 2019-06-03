@@ -3,7 +3,7 @@ import { AUTH_CONFIG } from './auth0-variables';
 import API from '../utils/API';
 import React from 'react';
 
-import Profile from '../pages/ProfilePage';
+// import Profile from '../pages/ProfilePage';
 
 export default class Auth extends React.Component {
 

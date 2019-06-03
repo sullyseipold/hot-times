@@ -8,27 +8,24 @@ import { withRouter } from 'react-router';
 import './homepage.css';
 
 function Homepage(props) {
-    console.log(props)
-    const { authenticated } = props;
+  console.log(props);
+  const { authenticated } = props;
 
-    console.log('homepage authenticated = ', authenticated);
-  
-    const logout = () => {
-      props.auth.logout();
-      props.history.push('/');
-    };
-  
-  
-    if (authenticated) {
-        const { name } = props.auth.getProfile();
-        return (
-          <div>
-            <h1>Howdy! Glad to see you back, {name}.</h1>
-            <button onClick={logout}>Log out</button>
-          </div>
-        );
-      }
-  
+  const logout = () => {
+    props.auth.logout();
+    props.history.push('/');
+  };
+
+  // const background = {
+  //   backgroundImage: `url("${bgImage}")`,
+  //   backgroundSize: 'cover',
+  //   backgroundRepeat: 'no-repeat',
+  // };
+
+  // const bem = bn.create('homepage');
+
+  if (authenticated) {
+    const { name } = props.auth.getProfile();
     return (
       <div>
         <h1>Howdy! Glad to see you back, {name}.</h1>
@@ -42,21 +39,21 @@ function Homepage(props) {
       <Container className="op" fluid>
         <br />
 
-        <h1>H 
-          
-        <Image
-          src={Logo}
-          width="40"
-          height="30"
-          className="pr-2"
-          alt="HotTime Logo"
-          rounded
-        />
-        tTime</h1>
-
+        <h1>
+          H
+          <Image
+            src={Logo}
+            width="40"
+            height="30"
+            className="pr-2"
+            alt="HotTime Logo"
+            rounded
+          />
+          tTime
+        </h1>
 
         <br />
-        <br/>
+        <br />
         <Button onClick={props.auth.login}>Log in</Button>
       </Container>
     </div>
