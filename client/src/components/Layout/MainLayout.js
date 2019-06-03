@@ -7,6 +7,7 @@ import {
 } from 'react-icons/md';
 import NotificationSystem from 'react-notification-system';
 import { NOTIFICATION_SYSTEM_STYLE } from 'utils/constants';
+import '../../index.css';
 
 class MainLayout extends React.Component {
   static isSidebarOpen() {
