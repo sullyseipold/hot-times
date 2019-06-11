@@ -6,6 +6,7 @@ import { withRouter } from 'react-router';
 // import bn from '../utils/bemnames';
 import './homepage.css';
 
+
 function Homepage(props) {
   console.log(props);
   const { authenticated } = props;
